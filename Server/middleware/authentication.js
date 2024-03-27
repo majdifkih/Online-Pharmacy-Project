@@ -4,7 +4,7 @@ const authenticate = (req, res, next) => {
   try {
     let token = req.cookies.token;
     if (token == null) {
-      return res.redirect("/login");
+      return res.status(401).send({ message: 'Invalid token' });
     } else {
       let decodeToken = jwt.verify(token, process.env.SECRET_KEY);
       decodeToken
