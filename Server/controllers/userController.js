@@ -7,16 +7,10 @@ const jwt = require("jsonwebtoken");
 //registring User
 exports.registerUser = async (req, res) => {
   try {
-    const { username, email, password, role } = req.body;
-     // Vérifier si un utilisateur avec le rôle admin existe déjà
-     const existingAdmin = await User.findOne({ role: 'admin' });
-
-     // Si un administrateur existe déjà, retourner un message d'erreur
-     if (existingAdmin) {
-       return res.status(400).send("An admin user already exists. Only one admin user is allowed.");
-     }
- 
-    const user = new User({ username, email, password, role });
+    const { username, email, password, prenom, adresse,telephone } = req.body;
+    
+    
+    const user = new User({ username, email, password, prenom, adresse, telephone });
     await user.save();
     // Rediriger l'utilisateur vers la page de connexion après l'enregistrement réussi
     res.status(200).send("User registered successfully");
