@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const auth = require("./routes/auth");
 const profil = require("./routes/profil")
 const cookieParser = require("cookie-parser");
-
+const cors = require('cors')
 dotenv.config();
 
 //database and port env variables
@@ -15,6 +15,7 @@ const DATABASE_URL = process.env.DATABASE_URL;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors());
 
 app.use("/auth", auth);
 app.use("", profil);

@@ -41,6 +41,7 @@ exports.loginUser = async (req, res) => {
       }
     );
     res.cookie("token", token);
+    console.log("login successfully");
     return res.status(200).send("login successfully");
   } catch (err) {
     console.log(err.message);
