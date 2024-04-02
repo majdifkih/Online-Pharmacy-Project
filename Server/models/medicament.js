@@ -16,7 +16,12 @@ const medicamentSchema = new mongoose.Schema({
     quantite: {
         type: Number,
         required: true
-    }
+    },
+    statut: {
+        type: String,
+        required: true,
+        default: "Disponible"
+    },
 });
 
 const Medicament = mongoose.model('Medicament', medicamentSchema);

@@ -3,7 +3,8 @@ const app = express();
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const auth = require("./routes/auth");
-const profil = require("./routes/profil")
+const profil = require("./routes/profil");
+const medicament = require("./routes/medicament");
 const cookieParser = require("cookie-parser");
 const cors = require('cors')
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(cors());
 
 app.use("/auth", auth);
 app.use("", profil);
+app.use("/medicament", medicament);
 //connecting to database url and starting local server
 try {
   mongoose.connect(DATABASE_URL).then(() => {
