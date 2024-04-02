@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Medicament = require("./medicament");
 
 const commandeSchema = new mongoose.Schema({
   userId: {
