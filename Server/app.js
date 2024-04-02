@@ -5,8 +5,9 @@ const mongoose = require("mongoose");
 const auth = require("./routes/auth");
 const profil = require("./routes/profil");
 const medicament = require("./routes/medicament");
+const commande = require("./routes/commande");
 const cookieParser = require("cookie-parser");
-const cors = require('cors')
+const cors = require("cors");
 dotenv.config();
 
 //database and port env variables
@@ -21,6 +22,7 @@ app.use(cors());
 app.use("/auth", auth);
 app.use("", profil);
 app.use("/medicament", medicament);
+app.use("", commande);
 //connecting to database url and starting local server
 try {
   mongoose.connect(DATABASE_URL).then(() => {

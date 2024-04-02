@@ -1,10 +1,10 @@
 import React from 'react';
+import NavBar from './Navbar/NavBar';
 
 const Header = () => {
     return (
         <header>
-            <h1>Online Pharmacy</h1>
-            {/* Add your navigation links or other content here */}
+            <NavBar />
         </header>
     );
 };
