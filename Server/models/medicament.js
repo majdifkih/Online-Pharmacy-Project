@@ -26,6 +26,10 @@ const medicamentSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  image: {
+    data: Buffer,
+    contentType: String,
+  },
 });
 
 const Medicament = mongoose.model("Medicament", medicamentSchema);
