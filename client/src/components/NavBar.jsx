@@ -111,7 +111,7 @@ const items = [
   },
   {
     label: (
-      <StyledLink to="/regsiter">
+      <StyledLink to="/register">
         Register
      </StyledLink>
     ),
