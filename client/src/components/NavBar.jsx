@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import {UserOutlined,SearchOutlined,ShoppingTwoTone} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.svg'
-import  { Dropdown, Space,Input,Badge } from  'antd';
+import  { Dropdown,Input,Badge } from  'antd';
 
 
 const Container = styled.div `
 width: 100%;
+position: sticky;
 `;
 
 const Wrapper = styled.div `
@@ -57,7 +58,7 @@ const MenuItem = styled.li `
   cursor: pointer;
   margin-left: 25px;
   &.active{
-    color: black;
+    color: #666666;
   }
   `;
 
@@ -73,7 +74,7 @@ const MenuItem = styled.li `
           text-decoration: none;
           color: inherit;
           &:hover{
-    color: black ;
+          color: #666666 ;
   }
   ` ;
 
