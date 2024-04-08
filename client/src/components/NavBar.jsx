@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {UserOutlined,SearchOutlined,ShoppingTwoTone} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.svg'
-import  {  Dropdown, Space,Input } from  'antd';
+import  { Dropdown, Space,Input,Badge } from  'antd';
 
 
 const Container = styled.div `
@@ -41,7 +41,8 @@ const Right = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: flex-end;`;
+  justify-content: flex-end;
+  `;
   
   
 const MenuItems = styled.ul`
@@ -64,8 +65,7 @@ const MenuItem = styled.li `
     fontSize:"25px",
     color:"#3DB2FF",
     cursor:"pointer",
-    marginRight:"35px"
-    
+    marginLeft:"25px"
   }
 
 
@@ -78,7 +78,6 @@ const MenuItem = styled.li `
   ` ;
 
     const SearchInput = styled(Input) `
-      margin-right: 35px;
       width: 50%;
       border-radius: 25px;
       border-width:0;
@@ -142,6 +141,7 @@ const items = [
 
 const NavBar = () => {
   const [menu,setMenu] = useState("");
+  const [count,setCount] = useState(0)
   return (
    <Container>
     <Wrapper>
@@ -161,12 +161,14 @@ const NavBar = () => {
         <SearchInput placeholder='Search for products ...'  suffix={suffix} /> 
         <Dropdown menu={{items,}}>
                 <a onClick={(e) => e.preventDefault()}>
-                    <Space>
+                 
                         <UserOutlined  style={iconStyle} />
-                    </Space>
+                   
                 </a>
-        </Dropdown> 
-        <ShoppingTwoTone  style={iconStyle}/>
+        </Dropdown>
+        <Badge count={count} style={{ marginLeft: 10 }}>
+          <ShoppingTwoTone  style={iconStyle} onClick={()=> setCount(count+1)}  />
+        </Badge>
       </Right>
       
     </Wrapper>
