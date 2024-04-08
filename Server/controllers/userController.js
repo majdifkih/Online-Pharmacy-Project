@@ -2,15 +2,19 @@ const User = require("../models/user");
 const bcyrpt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-
-
 //registring User
 exports.registerUser = async (req, res) => {
   try {
-    const { username, email, password, prenom, adresse,telephone } = req.body;
-    
-    
-    const user = new User({ username, email, password, prenom, adresse, telephone });
+    const { username, email, password, prenom, adresse, telephone } = req.body;
+
+    const user = new User({
+      username,
+      email,
+      password,
+      prenom,
+      adresse,
+      telephone,
+    });
     await user.save();
     // Rediriger l'utilisateur vers la page de connexion après l'enregistrement réussi
     res.status(200).send("User registered successfully");
@@ -18,8 +22,6 @@ exports.registerUser = async (req, res) => {
     res.status(400).send(err.message);
   }
 };
-
-
 
 //login User
 exports.loginUser = async (req, res) => {
@@ -41,7 +43,6 @@ exports.loginUser = async (req, res) => {
       }
     );
     res.cookie("token", token);
-    console.log("login successfully");
     return res.status(200).send("login successfully");
   } catch (err) {
     console.log(err.message);

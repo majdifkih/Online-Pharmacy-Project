@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
+
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -9,7 +11,7 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:4000/auth/login', { username, password });
             // Handle successful login
-            console.log(response.data);
+             console.log(response.data);
         } catch (error) {
             // Handle login error
             console.error(error);
