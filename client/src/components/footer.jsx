@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import {FacebookOutlined,InstagramOutlined,WhatsAppOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
-import logo from '../assets/logo.svg'
+import logo from '../assets/logo.svg';
+import {QRCode} from 'antd';
 
 const Container = styled.div `
     width: 100%;
@@ -60,6 +61,9 @@ const FooterCopyRight = styled.div `
     margin-top: 5px;
     color:#666666;
     font-weight: 800;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
 ` ;
 
 const SocialMedia = styled.div `
@@ -75,7 +79,12 @@ const iconStyle = {
 
   }
 
+const QRCodeContainer = styled.div`
+    margin-left: auto; /* Push QRCode to the right */
+`;
+
 const Footer = () => {
+    const [text, setText] =  useState('https://github.com/majdifkih/Online-Pharmacy-Project');
     return (
         <Container>
             <Wrapper>
@@ -117,8 +126,10 @@ const Footer = () => {
 
                 <FooterCopyRight>
                     <p>
-                        Copyright @{new Date().getFullYear()} .TEK-UP University
+                        Copyrights @{new Date().getFullYear()} .TEK-UP University
                     </p>
+                    <QRCodeContainer> <QRCode value={text}  size={80} /> </QRCodeContainer>
+                    
                 </FooterCopyRight>
        
             </Wrapper>
