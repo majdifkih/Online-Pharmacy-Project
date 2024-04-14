@@ -133,7 +133,7 @@ const items = [
     key: '3',
   },{
     label: (
-      <StyledLink to="/logout">
+      <StyledLink to="/" >
         Déconnexion
      </StyledLink>
     ),

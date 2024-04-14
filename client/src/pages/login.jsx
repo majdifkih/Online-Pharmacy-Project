@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Checkbox, Form, Input ,message} from 'antd';
 import styled from 'styled-components';
-import { redirect } from "react-router-dom";
+import { redirect } from 'react-router-dom';
+
 
 
 
@@ -19,28 +20,42 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [messageApi, contextHolder] = message.useMessage();
 
-    const errorMsg = () => {
+    const errorMsg = (errorMessage) => {
         messageApi.open({
           type: 'error',
-          content: 'username or password are incorrect',
+          content: errorMessage,
         });
       };
 
       const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:4000/auth/login', { username, password });
-               if (response.status === 200) { console.log("success")}
-               else if (response.status === 400) {errorMsg();}
-        } catch (error) {
-            console.error('Error during login:',error);
-        }
+            const response = await axios.post('http://localhost:4000/auth/login', { username, password }, {
+                withCredentials: true 
+              });
+            if (response.status === 200) {
+                console.log("success")
+                // Here you can redirect the user or perform any other action upon successful login
+            } else {
+                console.log("error");
+                errorMsg();
+            }
+        } catch (err) {
+                if (err.response.status === 401) {
+                    const errorMessage = err.response.data;
+                        console.log(errorMessage);
+                        errorMsg(errorMessage);
+                } else {
+                    console.log("An error occurred during login");
+                    errorMsg();
+                }
+    }
     };
 
    
 
 return (
 <Container>
-{contextHolder}
+
         <Form name="basic" labelCol={{span: 8,}} wrapperCol={{span: 16,}} style={{maxWidth: 600,}} initialValues={{remember: true,}} autoComplete="off">
             
             <Form.Item label="Username" name="username"rules={[{required: true,message: 'Please input your username!',},]}>
@@ -56,6 +71,7 @@ return (
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16,}}>
+                {contextHolder}
                 <Button type="primary" htmlType="submit" onClick={handleLogin}>
                     Login
                 </Button>

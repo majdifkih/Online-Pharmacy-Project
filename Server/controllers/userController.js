@@ -29,21 +29,21 @@ exports.loginUser = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username: username });
     if (!user) {
-      return res.status(400).send("username is incorrect");
+      return res.status(401).json("Invalid username");
     }
     const VerifPassword = await bcyrpt.compare(password, user.password);
     if (!VerifPassword) {
-      return res.status(400).send("password is incorrect");
+      return res.status(401).json("Invalid password");
     }
     const token = jwt.sign(
       { id: user._id, email: user.email, role: user.role },
       process.env.SECRET_KEY,
       {
-        expiresIn: "1h",
+        expiresIn: "24h",
       }
     );
-    res.cookie("token", token);
-    return res.status(200).send("login successfully");
+    res.cookie("token", token, { httpOnly: true, secure: true });
+    return res.status(200).json(token);
   } catch (err) {
     console.log(err.message);
   }
