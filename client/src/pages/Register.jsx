@@ -13,6 +13,7 @@ const Container = styled.div `
 ` ;
 
 const Register = () => {
+  
   const [username,setUsername] = useState('');
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
@@ -25,7 +26,11 @@ const Register = () => {
   const registerMsg = () => {
       messageApi.open({
         type: 'success',
-        content: 'account created successfully !',
+        content: (
+          <span>
+              Account created successfully! You can <a href="/login">login</a>.
+          </span>
+      ),
       });
     };
 

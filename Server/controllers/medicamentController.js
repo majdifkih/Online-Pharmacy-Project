@@ -10,6 +10,21 @@ module.exports.listMedicaments = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+//Fonction pour chercher un médicament par son nom
+
+module.exports.searchMedic = async (req, res) => {
+  try {
+    const { medicName } = req.body;
+    const medicaments = await Medicament.findOne({ nom: medicName });
+    medicaments
+      ? res.status(200).json(medicaments)
+      : res.status(404).send("medicament not found !");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
 // Fonction pour lire un médicament par son ID
 module.exports.oneMedicament = async (req, res) => {
   try {
