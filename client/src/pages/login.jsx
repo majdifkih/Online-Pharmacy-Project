@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
+import { useNavigate  } from 'react-router-dom';
 
 const Container = styled.div`
     display: flex;
@@ -15,7 +15,7 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [messageApi, contextHolder] = message.useMessage();
-    const history = useHistory();
+    const navigate = useNavigate ();
 
     const errorMsg = (errorMessage) => {
         messageApi.error(errorMessage);
@@ -26,9 +26,9 @@ const Login = () => {
             const response = await axios.post('http://localhost:4000/auth/login', { username, password });
             if (response.status === 200) {
                 console.log("success")
-                history.push('/');
+                navigate('/');
             } else {
-                redirect('/login');
+                navigate('/login');                
             }
         } catch (error) {
             if (error.response.status === 401) {
