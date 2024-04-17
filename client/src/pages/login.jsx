@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Button, Form, Input, message } from 'antd';
 import styled from 'styled-components';
 import { useNavigate  } from 'react-router-dom';
+import {jwtDecode } from 'jwt-decode';
 
 const Container = styled.div`
     margin-top: 8%;
@@ -42,7 +43,9 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:4000/auth/login', { username, password },{withCredentials: true} );
             if (response.status === 200) {
-                console.log("success")
+                const token = response.data;
+                const decodedToken = jwtDecode(token);
+                console.log(decodedToken.email);
                 navigate('/');
             } else {
                 navigate('/login');                
