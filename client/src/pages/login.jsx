@@ -33,16 +33,13 @@ const Login = () => {
                 withCredentials: true 
               });
             if (response.status === 200) {
-                console.log("success")
-                // Here you can redirect the user or perform any other action upon successful login
+                redirect('/');
             } else {
-                console.log("error");
-                errorMsg();
+                redirect('/login');
             }
         } catch (err) {
                 if (err.response.status === 401) {
                     const errorMessage = err.response.data;
-                        console.log(errorMessage);
                         errorMsg(errorMessage);
                 } else {
                     console.log("An error occurred during login");

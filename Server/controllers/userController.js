@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 exports.registerUser = async (req, res) => {
   try {
     const { username, email, password, prenom, adresse, telephone } = req.body;
-
     const user = new User({
       username,
       email,
@@ -16,10 +15,9 @@ exports.registerUser = async (req, res) => {
       telephone,
     });
     await user.save();
-    // Rediriger l'utilisateur vers la page de connexion après l'enregistrement réussi
     res.status(200).send("User registered successfully");
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(400).json(err.message);
   }
 };
 

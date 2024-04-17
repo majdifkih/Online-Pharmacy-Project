@@ -49,9 +49,13 @@ const Register = () => {
     try{
         const response = await axios.post("http://localhost:4000/auth/register",{username,email,password,prenom,adresse,telephone});
         (response.status === 200) ? registerMsg():failerMsg();
-        
     }catch(err){
-      console.log(err.message);
+      if (err.response.status === 400) {
+            failerMsg();
+    } else {
+        console.log("An error occurred during login");
+        failerMsg();
+    }
     }
   }
 
