@@ -29,7 +29,9 @@ const Login = () => {
       const handleLogin = async () => {
         try {
             const response = await axios.post('http://localhost:4000/auth/login', { username, password });
-               if (response.status === 200) { console.log("success")}
+               if (response.status === 200) { 
+                console.log("success")
+                redirect('/');}
                else if (response.status === 400) {errorMsg();}
         } catch (error) {
             console.error('Error during login:',error);
