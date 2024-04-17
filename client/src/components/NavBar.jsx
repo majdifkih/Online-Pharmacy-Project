@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import {UserOutlined,SearchOutlined,ShoppingTwoTone} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.svg'
-import  { Dropdown,Input,Badge } from  'antd';
+import  { Dropdown,Input,Badge,Drawer } from  'antd';
+import axios from 'axios';
+import { useNavigate  } from 'react-router-dom';
 
 
 const Container = styled.div `
@@ -100,49 +102,70 @@ const MenuItem = styled.li `
         />);
 
 
-const items = [
-  {
-    label: (
-      <StyledLink to="/login">
-        Login
-     </StyledLink>
-    ),
-    key: '0',
-  },
-  {
-    label: (
-      <StyledLink to="/register">
-        Register
-     </StyledLink>
-    ),
-    key: '1',
-  },
-  {
-    label: (
-      <StyledLink to="/profile">
-        Profile
-     </StyledLink>
-    ),
-    key: '2',
-  },{
-    label: (
-      <StyledLink to="/commandes">
-        Mes Commandes
-     </StyledLink>
-    ),
-    key: '3',
-  },{
-    label: (
-      <StyledLink to="/" >
-        Déconnexion
-     </StyledLink>
-    ),
-  },
-  ];
+
 
 const NavBar = () => {
   const [menu,setMenu] = useState("");
-  const [count,setCount] = useState(0)
+  const [count,setCount] = useState(0);
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate ();
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+
+ 
+
+  const handleLogout= async ()=>{
+    const response = await axios.post("http://localhost:4000/auth/logout",{},{withCredentials: true})
+    if (response.status === 200) {
+      
+      navigate('/login');
+    } else {
+      console.log('error');
+    }
+  }
+  const items = [
+    {
+      label: (
+        <StyledLink to="/login">
+          Login
+       </StyledLink>
+      ),
+      key: '0',
+    },
+    {
+      label: (
+        <StyledLink to="/register">
+          Register
+       </StyledLink>
+      ),
+      key: '1',
+    },
+    {
+      label: (
+        <StyledLink to="/profile">
+          Profile
+       </StyledLink>
+      ),
+      key: '2',
+    },{
+      label: (
+        <StyledLink to="/commandes">
+          Mes Commandes
+       </StyledLink>
+      ),
+      key: '3',
+    },{
+      label: (
+        <StyledLink onClick={handleLogout} >
+          Déconnexion
+       </StyledLink>
+      ),
+    },
+    ];
   return (
    <Container>
     <Wrapper>
@@ -168,11 +191,15 @@ const NavBar = () => {
                 </a>
         </Dropdown>
         <Badge count={count} style={{ marginLeft: 10 }}>
-          <ShoppingTwoTone  style={iconStyle} onClick={()=> setCount(count+1)}  />
+          <ShoppingTwoTone  style={iconStyle} onClick={showDrawer}  />
         </Badge>
       </Right>
-      
     </Wrapper>
+    <Drawer title="Cart" onClose={onClose} open={open}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Drawer>
   </Container>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import styled from 'styled-components';
 import { useNavigate  } from 'react-router-dom';
 
@@ -40,7 +40,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:4000/auth/login', { username, password });
+            const response = await axios.post('http://localhost:4000/auth/login', { username, password },{withCredentials: true} );
             if (response.status === 200) {
                 console.log("success")
                 navigate('/');

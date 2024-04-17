@@ -50,7 +50,7 @@ const Register = () => {
   const [password,setPassword] = useState('');
   const [prenom,setPernom ]= useState('');
   const [adresse,setAdresse] = useState('');
-  const [telephone,setTelephone] = useState('');
+
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -78,7 +78,7 @@ const Register = () => {
 
   const handleRegister = async () =>{
     try{
-        const response = await axios.post("http://localhost:4000/auth/register",{username,email,password,prenom,adresse,telephone});
+        const response = await axios.post("http://localhost:4000/auth/register",{username,email,password,prenom,adresse});
         (response.status === 200) ? registerMsg():failerMsg();
     }catch(err){
       if (err.response.status === 400) {
