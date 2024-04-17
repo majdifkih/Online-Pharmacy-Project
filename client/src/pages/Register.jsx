@@ -6,11 +6,42 @@ import styled from 'styled-components';
 
 
 
-const Container = styled.div `
+const Container = styled.div`
+    margin-top: 4%;
     display: flex;
     justify-content: center;
-    margin-top: 5%;
+    align-items: flex-start;   
+    height : 65vh;
+`;
+
+const Section = styled.div `
+    width: 600px; 
+    z-index: 1000;
+    box-shadow: 0 10px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
 ` ;
+
+
+
+
+const StyledInput = styled(Input) `
+  border-radius: 25px;
+  width: 100%;
+` ;
+
+const StyledPassInput = styled(Input.Password) `
+   border-radius: 25px;
+  width: 100%;
+`;
+
+const StyledTextAreaInput = styled(Input.TextArea) `
+   border-radius: 25px;
+  width: 100%;
+`;
+
 
 const Register = () => {
   
@@ -61,17 +92,20 @@ const Register = () => {
 
   return (
   <Container>
+    <img src="https://img.freepik.com/free-vector/employees-cv-candidates-resume-corporate-workers-students-id-isolate-flat-design-element-job-applications-avatars-personal-information-concept-illustration_335657-1661.jpg?w=740&t=st=1713364560~exp=1713365160~hmac=ac3f42003bd8db8bb9fa38ccc31365ce1e1a00ffb23603e57f097ce402e181c7" alt=""  style={{width:'450px'}} />
+    <Section>
+      <h2 style={{fontWeight:'600',marginBottom:'25px'}}> Register </h2>
       <Form name="basic" labelCol={{span: 8,}} wrapperCol={{span: 16,}} style={{maxWidth: 600,flex:"100%"}} initialValues={{remember: true,}} autoComplete="off">
             <Form.Item label="Username" name="username" rules={[{required: true,message: 'Please input your username!',},]}>
-                <Input value={username} onChange={(e) => setUsername(e.target.value)} />
+                <StyledInput value={username} onChange={(e) => setUsername(e.target.value)} />
             </Form.Item>
 
             <Form.Item label="Email" name="email"rules={[{type:'email',message: 'Please enter a valid email !',},{required: true,message: 'Please input your email',},]} hasFeedback >
-                <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+                <StyledInput value={email} onChange={(e) => setEmail(e.target.value)} />
             </Form.Item>
 
             <Form.Item name="password" label="Password" rules={[{required: true,message: 'Please input your password!',},]}hasFeedback >
-                <Input.Password />
+                <StyledPassInput />
             </Form.Item>
 
             <Form.Item name="confirm" label="Confirm Password" dependencies={['password']} hasFeedback rules={[{ required: true, message: 'Please confirm your password!',},({ getFieldValue }) => ({
@@ -83,27 +117,25 @@ const Register = () => {
                     },
                   }),
                 ]}>
-                <Input.Password value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <StyledPassInput value={password} onChange={(e) => setPassword(e.target.value)}/>
             </Form.Item>
 
             <Form.Item label="Prenom" name="Prenom" >
-                <Input value={prenom} onChange={(e) => setPernom(e.target.value)} />
+                <StyledInput value={prenom} onChange={(e) => setPernom(e.target.value)} />
             </Form.Item>
 
             <Form.Item label="Adesse" name="Adresse" rules={[{required: true,message: 'Please input your Adresse!',},]}>
-                <Input.TextArea value={adresse} onChange={(e) => setAdresse(e.target.value)} />
+                <StyledTextAreaInput value={adresse} onChange={(e) => setAdresse(e.target.value)} />
             </Form.Item>
 
-            <Form.Item label="Phone" name="Phone" >
-                <Input value={telephone} onChange={(e) => setTelephone(e.target.value)} />
-            </Form.Item>
             {contextHolder}
             <Form.Item wrapperCol={{ offset: 8, span: 16,}}>
-                <Button type="primary" htmlType="submit" onClick={handleRegister}>
+                <Button type="primary" htmlType="submit" onClick={handleRegister} style={{width:'70%',backgroundColor:'#3db2ff',borderRadius:'30px 30px 30px 30px'}}>
                     Register
                 </Button>
             </Form.Item>
-  </Form>
+        </Form>
+        </Section>
 </Container>
   )
 }

@@ -5,10 +5,11 @@ import styled from 'styled-components';
 import { useNavigate  } from 'react-router-dom';
 
 const Container = styled.div`
-    margin-top: 5%;
+    margin-top: 8%;
     display: flex;
     justify-content: center;
-    align-items: flex-start;    
+    align-items: flex-start;   
+    height : 65vh;
 `;
 
 const Section = styled.div `
