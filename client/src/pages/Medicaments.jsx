@@ -52,7 +52,7 @@ const IconsContainer = styled.div `
 const FilterContainer = styled.div ``;
 
 
-const Medicaments = () => {
+const Medicaments = ({}) => {
     const [medicaments, setMedicaments] = useState([]);
     const [error, setError] = useState(null);
   
