@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button, Form, Input, message } from 'antd';
 import styled from 'styled-components';
 import { useNavigate  } from 'react-router-dom';
-import {jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const Container = styled.div`
     margin-top: 8%;

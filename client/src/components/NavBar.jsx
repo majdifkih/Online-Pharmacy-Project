@@ -121,7 +121,6 @@ const NavBar = () => {
   const handleLogout= async ()=>{
     const response = await axios.post("http://localhost:4000/auth/logout",{},{withCredentials: true})
     if (response.status === 200) {
-      
       navigate('/login');
     } else {
       console.log('error');
@@ -175,7 +174,7 @@ const NavBar = () => {
         <Center>
           <MenuItems>
             <MenuItem className={menu === "home" ? "active":""} onClick={() => setMenu('home')}> <StyledLink to="/"> Home </StyledLink> </MenuItem> 
-            <MenuItem className={menu === "médicaments" ? "active":""}  onClick={ () => setMenu('médicaments') }> <StyledLink to ="/médicaments" className='link'> Médicaments </StyledLink>  </MenuItem>
+            <MenuItem className={menu === "medics" ? "active":""}  onClick={ () => setMenu('medics') }> <StyledLink to ="/medics" className='link'> Médicaments </StyledLink>  </MenuItem>
             <MenuItem className={menu === "contact" ? "active":""}  onClick={ () => setMenu('contact')}> <StyledLink to ="/contact"> Contact </StyledLink>   </MenuItem>
             <MenuItem className={menu === "about" ? "active":""}  onClick={ () => setMenu('about')}> <StyledLink to="/about"> About Us </StyledLink>  </MenuItem>
           </MenuItems>

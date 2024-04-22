@@ -79,7 +79,7 @@ const Home = () => {
       </Carousel> 
     </CarouselContainer>
     <InfoContainer>
-        <Left> <img src="https://demo2.wpopal.com/pharmacy2/wp-content/uploads/2022/03/h6_Bg_1.jpg" alt="" srcset="" /></Left>
+        <Left> <img src="https://demo2.wpopal.com/pharmacy2/wp-content/uploads/2022/03/h6_Bg_1.jpg" alt="" srcSet='' /></Left>
         <Right>  
           <h4> Welcome to Online Pharmacy </h4>
               <h2>Our Mission to Provide Medical Equipment. In Order To Improve People Healthcare.</h2>

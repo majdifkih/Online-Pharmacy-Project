@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import {FloatButton } from 'antd';
 import Register from './pages/Register';
+import Medicaments from './pages/Medicaments';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
                  <Route path='login' element={<Login />} />
                  <Route path='register' element={<Register />} />
                  <Route path="profil" element={<Profile />} />
+                 <Route path='medics' element={<Medicaments />} />
             </Route>
         </Routes>
 

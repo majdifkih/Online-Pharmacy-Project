@@ -88,7 +88,7 @@ const Footer = () => {
     return (
         <Container>
             <Wrapper>
-                 <img src={logo} alt="" srcset="" />
+                 <img src={logo} alt="" srcSet='' />
                 <FooterLinks>
                         <FooterLinksDiv>
                             <Title>Informations</Title>
