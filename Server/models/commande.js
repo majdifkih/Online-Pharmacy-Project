@@ -9,7 +9,7 @@ const commandeSchema = new mongoose.Schema({
   medicaments: [
     {
       medicId: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Medicament",
         required: true,
       },

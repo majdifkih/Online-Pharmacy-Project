@@ -29,7 +29,6 @@ module.exports.searchMedic = async (req, res) => {
 module.exports.oneMedicament = async (req, res) => {
   try {
     const { id } = req.params;
-
     // Rechercher le médicament par son ID dans la base de données
     const medicament = await Medicament.findById(id);
 
@@ -46,7 +45,7 @@ module.exports.oneMedicament = async (req, res) => {
 // Fonction pour ajouter un médicament
 module.exports.addMedicament = async (req, res) => {
   try {
-    const { nom, description, prix, quantite } = req.body;
+    const { nom, description, prix, quantite, obligatoire } = req.body;
 
     // Créer une nouvelle instance de Medicament
     const nouveauMedicament = new Medicament({
@@ -54,7 +53,11 @@ module.exports.addMedicament = async (req, res) => {
       description,
       prix,
       quantite,
+      PersMedicOblig: obligatoire,
     });
+    
+    nouveauMedicament.image = "http://localhost:4000/" + req.files[0].path;
+   
 
     // Mettre à jour le statut du médicament en fonction de la quantité
     if (nouveauMedicament.quantite <= 0) {

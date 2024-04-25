@@ -108,7 +108,7 @@ const Footer = () => {
                         <Title>Lien Utiles</Title>
                                 <FooterLink to="/login"> Login </FooterLink>
                                 <FooterLink to="/register"> Register </FooterLink>
-                                <FooterLink to ="/médicaments" target='_blank'> Médicaments </FooterLink>
+                                <FooterLink to ="/medics" target='_blank'> Médicaments </FooterLink>
                                 <FooterLink to ="/mescommandes" target='_blank'> Mes commandes </FooterLink>
                         </FooterLinksDiv>
 

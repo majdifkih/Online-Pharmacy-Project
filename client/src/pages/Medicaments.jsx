@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {Card} from 'antd';
 import styled from 'styled-components';
-import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons'; // Import Ant Design icons
-
+import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons'; 
+import { useNavigate } from 'react-router-dom';
 
 
 
 const Container = styled.div `
     margin-top: 8px;
-    display: flex;
+  display: flex;
   justify-content: center;
 `;
 
@@ -55,6 +55,7 @@ const FilterContainer = styled.div ``;
 const Medicaments = ({}) => {
     const [medicaments, setMedicaments] = useState([]);
     const [error, setError] = useState(null);
+    const navigate = useNavigate ();
   
     useEffect(() => {
       const fetchMedicaments = async () => {
@@ -72,18 +73,22 @@ const Medicaments = ({}) => {
     if (error) {
       return <div>Error: {error.message}</div>;
     }
+
+    const handleViewDetails = (medicament) => {
+      navigate(`/MedicDetail/${medicament._id}`);
+    };
   
     return (
       <Container>
         <ProductsContainer>
           {medicaments.map((medicament) => (
-            <StyledCard key={medicament._id} hoverable style={{width: '250px', marginBottom: '20px',alignItems:'center'}} cover={<img alt="example" style={{width:'150px',marginTop:'25px'}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdCJXA2CFbzAuAEAh8IRuXx9dLGQcJitOwl1iK1f_Vtw&s" />}>
+            <StyledCard key={medicament._id} onClick={ () => handleViewDetails(medicament)} hoverable style={{width: '250px', marginBottom: '20px',alignItems:'center'}} cover={<img alt="example" style={{width:'150px',marginTop:'25px'}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdCJXA2CFbzAuAEAh8IRuXx9dLGQcJitOwl1iK1f_Vtw&s" />}>
                 <div>
                     Nom : <Name> {medicament.nom.toUpperCase()} </Name> <br />
                     Prix : <Price> {medicament.prix} DT </Price>
                 </div>
                 <IconsContainer>
-                    <EyeOutlined  style={{fontSize:'25px',marginRight:'15px'}}/> 
+                    <EyeOutlined  style={{fontSize:'25px',marginRight:'15px'}} onClick={ () => handleViewDetails(medicament)} /> 
                     <ShoppingCartOutlined style={{fontSize:'25px'}} />
                 </IconsContainer>
             </StyledCard>

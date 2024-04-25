@@ -27,7 +27,11 @@ const UserSchema = new mongoose.Schema({
     },
     telephone: {
         type: Number
-    }
+    },
+    panier:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Medicament"
+    }]
 });
 
 // Hashing password before saving

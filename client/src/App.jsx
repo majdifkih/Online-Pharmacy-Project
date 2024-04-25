@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import {FloatButton } from 'antd';
 import Register from './pages/Register';
 import Medicaments from './pages/Medicaments';
+import MedicamentDetail from './pages/MedicamentDetail';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
                  <Route path='register' element={<Register />} />
                  <Route path="profil" element={<Profile />} />
                  <Route path='medics' element={<Medicaments />} />
+                 <Route path='/MedicDetail/:id'  element={<MedicamentDetail />} />
             </Route>
         </Routes>
 
