@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Form, Input, message } from 'antd';
 import styled from 'styled-components';
-import { useNavigate  } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
+
 
 const Container = styled.div`
-    margin-top: 8%;
+    margin-top: 2%;
     display: flex;
     justify-content: center;
     align-items: flex-start;   
@@ -23,17 +23,16 @@ const Section = styled.div `
     align-items: center;
 ` ;
 
-const Image = styled.image `
+const Image = styled.img `
     margin-bottom: 25px; 
+    width:'200px';
 `;
-
-
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [messageApi, contextHolder] = message.useMessage();
-    const navigate = useNavigate ();
+    const navigate = useNavigate();
 
     const errorMsg = (errorMessage) => {
         messageApi.error(errorMessage);
@@ -43,10 +42,9 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:4000/auth/login', { username, password },{withCredentials: true} );
             if (response.status === 200) {
-                const token = response.data;
-                const decodedToken = jwtDecode(token);
-                console.log(decodedToken.email);
-                navigate('/');
+                const token = response.data.token;
+                localStorage.setItem("token",token);
+                navigate("/");
             } else {
                 navigate('/login');                
             }
@@ -63,12 +61,13 @@ const Login = () => {
         }
     };
 
+
+
     return (
         <Container>
             <Section>
-            <Image>
-                <img src="https://themebeyond.com/html/yed/img/images/contact_img.png" alt="" style={{width:'200px'}}/>
-            </Image>
+            <Image src="https://themebeyond.com/html/yed/img/images/contact_img.png" alt="" />
+       
                 <Form name="basic" labelCol={{ span: 8, }} wrapperCol={{ span: 16, }} style={{ maxWidth: 600, }} initialValues={{ remember: true, }} autoComplete="off">
                     <Form.Item label="Username" name="username" rules={[{ required: true, message: 'Please input your username!', },]}>
                         <Input value={username} onChange={(e) => setUsername(e.target.value)} style={{borderRadius:'25px',width:'100%'}} />

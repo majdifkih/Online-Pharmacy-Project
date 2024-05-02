@@ -12,7 +12,6 @@ module.exports.listMedicaments = async (req, res) => {
 };
 
 //Fonction pour chercher un médicament par son nom
-
 module.exports.searchMedic = async (req, res) => {
   try {
     const { medicName } = req.body;
@@ -55,9 +54,8 @@ module.exports.addMedicament = async (req, res) => {
       quantite,
       PersMedicOblig: obligatoire,
     });
-    
+
     nouveauMedicament.image = "http://localhost:4000/" + req.files[0].path;
-   
 
     // Mettre à jour le statut du médicament en fonction de la quantité
     if (nouveauMedicament.quantite <= 0) {

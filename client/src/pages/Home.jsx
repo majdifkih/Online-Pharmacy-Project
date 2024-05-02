@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {Carousel,Card,Col, Row} from 'antd';
 import styled from 'styled-components'
-
+import axios from 'axios';
 
 
 const Container = styled.div `` ;
@@ -63,19 +63,34 @@ const contentStyle = {
 
 
 const Home = () => {
+
+  const [medicament,setMedicaments] = useState([]);
+  useEffect(() => {
+    const medics = async () => {
+      try{
+        const response = await axios.get('http://localhost:4000/medicament');
+        const sortedMedicaments = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const latestMedicaments = sortedMedicaments.slice(0, 3);
+        setMedicaments(latestMedicaments);
+      }catch(err){
+        console.log (err.message);
+      }
+    };
+    medics();
+  },[])
+
   return (
   <Container> 
     <CarouselContainer>
         <Carousel autoplay>
-            <div>
-              <h3 style={contentStyle}>1</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>2</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>3</h3>
-            </div>
+          {medicament.map((medic) => (
+            <div key={medic._id}>
+            <h3 style={contentStyle}>
+              {medic.nom}
+            </h3>
+          </div>
+          ))}
+           
       </Carousel> 
     </CarouselContainer>
     <InfoContainer>

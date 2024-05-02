@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import styled from 'styled-components';
 import {UserOutlined,SearchOutlined,ShoppingTwoTone} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -6,7 +6,7 @@ import logo from '../assets/logo.svg'
 import  { Dropdown,Input,Badge,Drawer } from  'antd';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
-
+import { jwtDecode } from 'jwt-decode';
 
 const Container = styled.div `
 width: 100%;
@@ -108,7 +108,9 @@ const NavBar = () => {
   const [menu,setMenu] = useState("");
   const [count,setCount] = useState(0);
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate ();
+  const [cart,setCartItems] = useState([]);
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
   const showDrawer = () => {
     setOpen(true);
   };
@@ -116,17 +118,37 @@ const NavBar = () => {
     setOpen(false);
   };
 
- 
 
-  const handleLogout= async ()=>{
-    const response = await axios.post("http://localhost:4000/auth/logout",{},{withCredentials: true})
-    if (response.status === 200) {
-      navigate('/login');
-    } else {
-      console.log('error');
+ useEffect(()=>{
+  fetchCartItems();
+  },[]);
+
+
+  const fetchCartItems = async () =>{
+    try{
+    const token=localStorage.getItem("token")
+    const decodeToken = jwtDecode(token);
+    const id = decodeToken.id;
+    const response = await axios.get(`http://localhost:4000/panier/getpanier/${id}`);
+    setCartItems(response.data);
+   console.log(response.data);
+    }catch (err){
+      console.log(err.message);
     }
   }
-  const items = [
+ 
+
+  const handleLogout = async ()=> {
+    try{
+        localStorage.removeItem("token");
+        navigate('/login');
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+  
+  const UnAuthitems = [
+    
     {
       label: (
         <StyledLink to="/login">
@@ -142,29 +164,35 @@ const NavBar = () => {
        </StyledLink>
       ),
       key: '1',
-    },
-    {
-      label: (
-        <StyledLink to="/profile">
-          Profile
-       </StyledLink>
-      ),
-      key: '2',
-    },{
-      label: (
-        <StyledLink to="/commandes">
-          Mes Commandes
-       </StyledLink>
-      ),
-      key: '3',
-    },{
-      label: (
-        <StyledLink onClick={handleLogout} >
-          Déconnexion
-       </StyledLink>
-      ),
-    },
+    }
     ];
+
+    const AuthItmes = [      
+      {
+        label: (
+          <StyledLink to="/profile">
+            Profile
+         </StyledLink>
+        ),
+        key: '2',
+      },{
+        label: (
+          <StyledLink to="/commandes">
+            Mes Commandes
+         </StyledLink>
+        ),
+        key: '3',
+      },{
+        label: (
+          <StyledLink onClick={handleLogout} >
+            Déconnexion
+         </StyledLink>
+        ),
+      },
+      ];
+
+const items = token ? AuthItmes : UnAuthitems;
+  
   return (
    <Container>
     <Wrapper>
@@ -195,10 +223,12 @@ const NavBar = () => {
       </Right>
     </Wrapper>
     <Drawer title="Cart" onClose={onClose} open={open}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </Drawer>
+    {cart.map((item) => (
+            <div key={item._id}>
+              <p>{item.nom} {item.prix} DT</p>
+            </div>
+    ))}
+    </Drawer>
   </Container>
   )
 }
