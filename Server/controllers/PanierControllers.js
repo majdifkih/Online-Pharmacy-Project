@@ -3,17 +3,24 @@ const User = require("../models/user");
 exports.panier = async (req, res) => {
   try {
     const iduser = req.body.iduser;
-    const idcommande = req.body.idmedicamnt;
-    await User.findByIdAndUpdate(
-      {
-        _id: iduser,
-      },
-      {
-        $push: { panier: idcommande },
-      },
-      { new: true }
-    );
-    res.status(200).json("added!");
+    const idmedic = req.body.idmedicamnt;
+    const isExist = await User.findOne({ panier: req.body.idmedicamnt });
+    console.log(isExist);
+    if (isExist) {
+      return res.json("Vous avez Déja ajouter ce produit dans le panier");
+    } else if (!isExist) {
+      await User.findByIdAndUpdate(
+        {
+          _id: iduser,
+        },
+
+        {
+          $push: { panier: idmedic },
+        },
+        { new: true }
+      );
+      return res.json("added!");
+    }
   } catch (error) {
     console.log(error);
     res.status(400).json("failed to add panier");

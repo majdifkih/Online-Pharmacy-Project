@@ -123,7 +123,9 @@ const NavBar = () => {
   fetchCartItems();
   },[]);
 
-
+useEffect(()=>{
+  setCount(cart.length);
+},[cart]);
   const fetchCartItems = async () =>{
     try{
     const token=localStorage.getItem("token")
@@ -225,7 +227,7 @@ const items = token ? AuthItmes : UnAuthitems;
     <Drawer title="Cart" onClose={onClose} open={open}>
     {cart.map((item) => (
             <div key={item._id}>
-              <p>{item.nom} {item.prix} DT</p>
+              <p> <b> Nom  Médicament : </b> {item.nom}   <b> Prix : </b>{item.prix} DT</p>
             </div>
     ))}
     </Drawer>

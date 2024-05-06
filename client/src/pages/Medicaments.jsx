@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card } from 'antd';
+import { Card,message } from 'antd';
 import styled from 'styled-components';
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -57,6 +57,10 @@ const Medicaments = () => {
   const [medicaments, setMedicaments] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+  const errorMsg = (errorMessage) => {
+    messageApi.error(errorMessage);
+};
 
   useEffect(() => {
     const fetchMedicaments = async () => {
@@ -76,10 +80,9 @@ const Medicaments = () => {
       const decodedToken = jwtDecode(token);
       const userId = (decodedToken.id);
       const response = await axios.post('http://localhost:4000/panier/addpanier', { iduser: userId, idmedicamnt:idmedicament });
-      if (response.status === 200) {
-        console.log(response.data);
-      } else {
-        console.log('error');
+      const isExist = response.data
+      if (isExist){
+        errorMsg(isExist)
       }
     } catch (error) {
       setError(error);
@@ -106,6 +109,7 @@ const Medicaments = () => {
             </div>
             <IconsContainer>
               <EyeOutlined style={{ fontSize: '25px', marginRight: '15px' }} onClick={() => handleViewDetails(medicament)} />
+              {contextHolder}
               <ShoppingCartOutlined style={{ fontSize: '25px' }} onClick={() => addToCart(medicament._id)} />
             </IconsContainer>
           </StyledCard>
