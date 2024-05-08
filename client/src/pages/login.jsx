@@ -4,7 +4,6 @@ import { Button, Form, Input, message } from 'antd';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-
 const Container = styled.div`
     margin-top: 2%;
     display: flex;
@@ -45,6 +44,7 @@ const Login = () => {
                 const token = response.data.token;
                 localStorage.setItem("token",token);
                 navigate("/");
+                window.location.reload();
             } else {
                 navigate('/login');                
             }

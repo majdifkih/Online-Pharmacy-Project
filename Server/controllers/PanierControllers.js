@@ -7,7 +7,7 @@ exports.panier = async (req, res) => {
     const isExist = await User.findOne({ panier: req.body.idmedicamnt });
     console.log(isExist);
     if (isExist) {
-      return res.json("Vous avez Déja ajouter ce produit dans le panier");
+      return res.json("Exists");
     } else if (!isExist) {
       await User.findByIdAndUpdate(
         {
@@ -19,7 +19,7 @@ exports.panier = async (req, res) => {
         },
         { new: true }
       );
-      return res.json("added!");
+      return res.json("Added!");
     }
   } catch (error) {
     console.log(error);

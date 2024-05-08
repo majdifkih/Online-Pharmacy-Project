@@ -62,33 +62,42 @@ const Medicaments = () => {
     messageApi.error(errorMessage);
 };
 
-  useEffect(() => {
-    const fetchMedicaments = async () => {
-      try {
-        const response = await axios.get('http://localhost:4000/medicament');
-        setMedicaments(response.data);
-      } catch (error) {
-        setError(error);
-      }
-    };
-    fetchMedicaments();
-  }, []);
+
+
+
+const fetchMedicaments = async () => {
+  try {
+    const response = await axios.get('http://localhost:4000/medicament');
+    setMedicaments(response.data);
+  } catch (error) {
+    setError(error);
+  }
+};
 
   const addToCart = async (idmedicament) => {
     try {
       const token = localStorage.getItem('token');
+      if (token) {
       const decodedToken = jwtDecode(token);
       const userId = (decodedToken.id);
       const response = await axios.post('http://localhost:4000/panier/addpanier', { iduser: userId, idmedicamnt:idmedicament });
       const isExist = response.data
-      if (isExist){
-        errorMsg(isExist)
+      if (isExist === 'Exists'){
+        errorMsg("You have already added this medic")
       }
+    }
     } catch (error) {
       setError(error);
     }
-
   }
+
+  useEffect(() => {
+    fetchMedicaments();
+  }, []);
+
+  useEffect(()=>{
+    addToCart()
+  },[]);
 
   if (error) {
     return <div>Error: {error.message}</div>;

@@ -7,6 +7,7 @@ import  { Dropdown,Input,Badge,Drawer } from  'antd';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { Button } from "antd";
 
 const Container = styled.div `
 width: 100%;
@@ -21,8 +22,7 @@ const Wrapper = styled.div `
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
-    `;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02); `;
 
 const Left = styled.div `
     flex: 1;
@@ -119,14 +119,16 @@ const NavBar = () => {
   };
 
 
- useEffect(()=>{
+useEffect(()=>{
   fetchCartItems();
-  },[]);
+},[]);
 
 useEffect(()=>{
   setCount(cart.length);
 },[cart]);
-  const fetchCartItems = async () =>{
+
+
+const fetchCartItems = async () =>{
     try{
     const token=localStorage.getItem("token")
     const decodeToken = jwtDecode(token);
@@ -144,6 +146,7 @@ useEffect(()=>{
     try{
         localStorage.removeItem("token");
         navigate('/login');
+        window.location.reload();
     }catch(err){
       console.log(err.message);
     }
@@ -214,9 +217,7 @@ const items = token ? AuthItmes : UnAuthitems;
         <SearchInput placeholder='Search for products ...'  suffix={suffix} /> 
         <Dropdown menu={{items,}}>
                 <a onClick={(e) => e.preventDefault()}>
-                 
                         <UserOutlined  style={iconStyle} />
-                   
                 </a>
         </Dropdown>
         <Badge count={count} style={{ marginLeft: 10 }}>
@@ -225,11 +226,20 @@ const items = token ? AuthItmes : UnAuthitems;
       </Right>
     </Wrapper>
     <Drawer title="Cart" onClose={onClose} open={open}>
-    {cart.map((item) => (
-            <div key={item._id}>
-              <p> <b> Nom  Médicament : </b> {item.nom}   <b> Prix : </b>{item.prix} DT</p>
-            </div>
-    ))}
+    {cart.length > 0 ? (
+    <>
+      {cart.map((item) => (
+        <div key={item._id}>
+          <p>
+            <b>Nom Médicament:</b> {item.nom} <b>Prix:</b> {item.prix} DT
+          </p>
+        </div>
+      ))}
+      <Button type="primary">Passer Commande</Button>
+    </>
+  ) : (
+    <p></p>
+  )}
     </Drawer>
   </Container>
   )
