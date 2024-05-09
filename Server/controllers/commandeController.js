@@ -3,7 +3,7 @@ const Medicament = require("../models/medicament");
 
 module.exports.passerCommande = async (req, res) => {
   try {
-    const userId = req.userId;
+    const { userId } = req.body;
     const { medicaments } = req.body;
     let prixTotal = 0;
     for (const medicament of medicaments) {

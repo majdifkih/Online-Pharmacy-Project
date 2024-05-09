@@ -7,7 +7,9 @@ import  { Dropdown,Input,Badge,Drawer } from  'antd';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { Button } from "antd";
+import { Button,Form,Slider,Upload } from "antd";
+import { PlusOutlined } from '@ant-design/icons';
+
 
 const Container = styled.div `
 width: 100%;
@@ -109,6 +111,7 @@ const NavBar = () => {
   const [count,setCount] = useState(0);
   const [open, setOpen] = useState(false);
   const [cart,setCartItems] = useState([]);
+  const [innerDrawerOpen, setInnerDrawerOpen] = useState(false);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const showDrawer = () => {
@@ -129,13 +132,14 @@ useEffect(()=>{
 
 
 const fetchCartItems = async () =>{
-    try{
+try{
     const token=localStorage.getItem("token")
     const decodeToken = jwtDecode(token);
     const id = decodeToken.id;
+    if (token){
     const response = await axios.get(`http://localhost:4000/panier/getpanier/${id}`);
     setCartItems(response.data);
-   console.log(response.data);
+  }
     }catch (err){
       console.log(err.message);
     }
@@ -151,9 +155,22 @@ const fetchCartItems = async () =>{
       console.log(err.message);
     }
   }
+
+   const passerCommande = async ()=>{
+    try{
+      const token = localStorage.getItem("token");
+      const decodeToken = jwtDecode(token);
+      const userId = decodeToken.id;
+      const medicIds  = cart.map(item => item._id);
+      console.log(medicIds);
+      const response = await axios.post('http://localhost:4000/commande',{userId,medicaments: medicIds});
+      console.log(response.status);
+    }catch (err){
+      console.log(err.message);
+    }
+  } 
   
   const UnAuthitems = [
-    
     {
       label: (
         <StyledLink to="/login">
@@ -231,16 +248,56 @@ const items = token ? AuthItmes : UnAuthitems;
       {cart.map((item) => (
         <div key={item._id}>
           <p>
-            <b>Nom Médicament:</b> {item.nom} <b>Prix:</b> {item.prix} DT
+            <b>Nom Médicament:</b> {item.nom}
           </p>
         </div>
       ))}
-      <Button type="primary">Passer Commande</Button>
+      <Button type="primary" onClick={() => setInnerDrawerOpen(true)}>Passer Commande</Button>
     </>
   ) : (
     <p></p>
   )}
-    </Drawer>
+
+<Drawer title="Passer Commande Formulaire" onClose={() => setInnerDrawerOpen(false)} open={innerDrawerOpen}>
+  {cart.map((item) => (
+    <div key={item._id}>
+      <p>
+        <b>Médicament:</b> {item.nom} 
+      </p>
+      <p>
+      <b>Prix:</b> {item.prix} DT
+      </p>
+      <Form.Item label="Quantité">
+        <Slider />
+      </Form.Item>
+      {item.PersMedicOblig ? (
+        <Form.Item label="Ordonnance" valuePropName="fileList" required>
+          <Upload action="/upload.do" listType="picture-card">
+            <button
+              style={{
+                border: 0,
+                background: 'none',
+              }}
+              type="button"
+            >
+              <PlusOutlined />
+              <div
+                style={{
+                  marginTop: 8,
+                }}
+              >
+                Upload
+              </div>
+            </button>
+          </Upload>
+        </Form.Item>
+      ) : null}
+    </div>
+  ))}
+  <Button type='primary' onClick={passerCommande}> Passer Commande </Button>
+</Drawer>
+
+</Drawer>
   </Container>
   )
 }

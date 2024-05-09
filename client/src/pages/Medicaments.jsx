@@ -19,7 +19,7 @@ display: flex;
 flex-wrap: wrap;
 margin-top: 2%;
 width: 100%;
-max-width: 1200px; /* Adjust max-width as needed */
+max-width: 1200px; 
 `;
 
 

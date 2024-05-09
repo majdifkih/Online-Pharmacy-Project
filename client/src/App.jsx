@@ -23,7 +23,6 @@ function App() {
                  <Route path='/MedicDetail/:id'  element={<MedicamentDetail />} />
             </Route>
         </Routes>
-
         <FloatButton.BackTop />
       <Footer />
     </div>

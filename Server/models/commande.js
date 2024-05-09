@@ -26,7 +26,7 @@ const commandeSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  statut: {
+  status: {
     type: String,
     default: "pending",
   },
