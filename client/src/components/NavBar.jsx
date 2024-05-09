@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import {UserOutlined,SearchOutlined,ShoppingTwoTone} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.svg'
-import  { Dropdown,Input,Badge,Drawer } from  'antd';
+import  { Dropdown,Input,Badge,Drawer,message } from  'antd';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { Button,Form,Slider,Upload } from "antd";
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined,DeleteOutlined,RightCircleOutlined } from '@ant-design/icons';
 
 
 const Container = styled.div `
@@ -112,6 +112,7 @@ const NavBar = () => {
   const [open, setOpen] = useState(false);
   const [cart,setCartItems] = useState([]);
   const [innerDrawerOpen, setInnerDrawerOpen] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const [quantities, setQuantities] = useState({});
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
@@ -132,6 +133,16 @@ useEffect(()=>{
 },[cart]);
 
 
+const commandeMsg = () => {
+  messageApi.open({
+    type: 'success',
+    content: (
+      <span>
+          Votre avez passer votre Commande avec success
+      </span>
+  ),
+  });
+};
 const fetchCartItems = async () =>{
 try{
     const token=localStorage.getItem("token")
@@ -172,11 +183,16 @@ try{
       const medicIds = cart.map(item => ({ medicId: item._id, quantity: quantities[item._id] || 1 }));
       console.log(medicIds);
       const response = await axios.post('http://localhost:4000/commande',{userId,medicaments: medicIds});
-      console.log(response.status);
+      (response.status ===200)?commandeMsg():console.log("can't pass command");
     }catch (err){
       console.log(err.message);
     }
   } 
+
+  const removeItemFromCart = (itemId) => {
+    const updatedCart = cart.filter(item => item._id !== itemId);
+    setCartItems(updatedCart);
+  };
   
   const UnAuthitems = [
     {
@@ -256,12 +272,13 @@ const items = token ? AuthItmes : UnAuthitems;
       {cart.map((item) => (
         <div key={item._id}>
           <p>
-            <b>Nom Médicament:</b> {item.nom}
+            <b>Nom Médicament:</b> {item.nom} <DeleteOutlined  style={{color:'red',position:'absolute',right:'25px',fontSize:'20px'}} onClick={() => removeItemFromCart(item._id)} />
           </p>
+          
         </div>
       ))}
           <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
-            <Button type="primary" onClick={() => setInnerDrawerOpen(true)}>suivant</Button>
+            <RightCircleOutlined  style={{fontSize:'35px',color:'#3DB2FF'}} onClick={() => setInnerDrawerOpen(true)} />
           </div>
     </>
   ) : (
@@ -278,7 +295,7 @@ const items = token ? AuthItmes : UnAuthitems;
       <b>Prix:</b> {item.prix} DT
       </p>
       <Form.Item label="Quantité">
-        <Slider onChange={(value) => handleSliderChange(value, item._id)} value={quantities[item._id]} />
+        <Slider onChange={(value) => handleSliderChange(value, item._id)} value={quantities[item._id]} min ={1} max={25} />
       </Form.Item>
       {item.PersMedicOblig ? (
         <Form.Item label="Ordonnance" valuePropName="fileList" required>
@@ -305,6 +322,7 @@ const items = token ? AuthItmes : UnAuthitems;
     </div>
   ))}
   <div style={{ position: 'absolute', bottom: '10px', right:'10px'}}>
+    {contextHolder}
   <Button type='primary' onClick={passerCommande}> Passer Commande </Button>
   </div>
 </Drawer>
