@@ -112,6 +112,7 @@ const NavBar = () => {
   const [open, setOpen] = useState(false);
   const [cart,setCartItems] = useState([]);
   const [innerDrawerOpen, setInnerDrawerOpen] = useState(false);
+  const [quantities, setQuantities] = useState({});
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const showDrawer = () => {
@@ -156,12 +157,19 @@ try{
     }
   }
 
+  const handleSliderChange = (value, itemId) => {
+    setQuantities(prevState => ({
+      ...prevState,
+      [itemId]: value
+    }));
+  };
+
    const passerCommande = async ()=>{
     try{
       const token = localStorage.getItem("token");
       const decodeToken = jwtDecode(token);
       const userId = decodeToken.id;
-      const medicIds  = cart.map(item => item._id);
+      const medicIds = cart.map(item => ({ medicId: item._id, quantity: quantities[item._id] || 1 }));
       console.log(medicIds);
       const response = await axios.post('http://localhost:4000/commande',{userId,medicaments: medicIds});
       console.log(response.status);
@@ -252,7 +260,9 @@ const items = token ? AuthItmes : UnAuthitems;
           </p>
         </div>
       ))}
-      <Button type="primary" onClick={() => setInnerDrawerOpen(true)}>Passer Commande</Button>
+          <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
+            <Button type="primary" onClick={() => setInnerDrawerOpen(true)}>suivant</Button>
+          </div>
     </>
   ) : (
     <p></p>
@@ -268,7 +278,7 @@ const items = token ? AuthItmes : UnAuthitems;
       <b>Prix:</b> {item.prix} DT
       </p>
       <Form.Item label="Quantité">
-        <Slider />
+        <Slider onChange={(value) => handleSliderChange(value, item._id)} value={quantities[item._id]} />
       </Form.Item>
       {item.PersMedicOblig ? (
         <Form.Item label="Ordonnance" valuePropName="fileList" required>
@@ -294,7 +304,9 @@ const items = token ? AuthItmes : UnAuthitems;
       ) : null}
     </div>
   ))}
+  <div style={{ position: 'absolute', bottom: '10px', right:'10px'}}>
   <Button type='primary' onClick={passerCommande}> Passer Commande </Button>
+  </div>
 </Drawer>
 
 </Drawer>
