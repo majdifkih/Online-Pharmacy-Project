@@ -3,7 +3,8 @@ import axios from 'axios';
 import { Button, Form, Input, message } from 'antd';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 const Container = styled.div`
     margin-top: 2%;
     display: flex;
@@ -64,8 +65,12 @@ const Login = () => {
 
 
     return (
+        <div>
+            <Header />
         <Container>
+           
             <Section>
+            
             <Image src="https://themebeyond.com/html/yed/img/images/contact_img.png" alt="" />
        
                 <Form name="basic" labelCol={{ span: 8, }} wrapperCol={{ span: 16, }} style={{ maxWidth: 600, }} initialValues={{ remember: true, }} autoComplete="off">
@@ -83,8 +88,12 @@ const Login = () => {
                         </Button>
                     </Form.Item>
                 </Form>
+                
+            
             </Section>
         </Container>
+        <Footer/>
+        </div>
     );
 };
 

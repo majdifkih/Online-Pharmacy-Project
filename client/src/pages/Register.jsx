@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import {Form,Input,message,Button} from 'antd';
 import styled from 'styled-components';
-
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 
 
@@ -91,6 +92,8 @@ const Register = () => {
   }
 
   return (
+    <div>
+      <Header/>
   <Container>
     <img src="https://img.freepik.com/free-vector/employees-cv-candidates-resume-corporate-workers-students-id-isolate-flat-design-element-job-applications-avatars-personal-information-concept-illustration_335657-1661.jpg?w=740&t=st=1713364560~exp=1713365160~hmac=ac3f42003bd8db8bb9fa38ccc31365ce1e1a00ffb23603e57f097ce402e181c7" alt=""  style={{width:'450px'}} />
     <Section>
@@ -137,6 +140,8 @@ const Register = () => {
         </Form>
         </Section>
 </Container>
+<Footer/>
+</div>
   )
 }
 

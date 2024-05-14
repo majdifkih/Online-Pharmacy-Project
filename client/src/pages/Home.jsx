@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import {Carousel,Card,Col, Row} from 'antd';
 import styled from 'styled-components'
 import axios from 'axios';
-
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const Container = styled.div `` ;
 
@@ -81,6 +82,7 @@ const Home = () => {
 
   return (
   <Container> 
+    <Header/>
     <CarouselContainer>
         <Carousel autoplay>
           {medicament.map((medic) => (
@@ -101,7 +103,7 @@ const Home = () => {
               <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor labore et dolore magna aliqua. Egestas dui id ornare arcu odio ut. Neque aliquam vestibulum morbi blandit cursus risus at. Duis at tellus at urna. Consequat ac felis donec et odio.</span>
          </Right>
     </InfoContainer>
-    
+    <Footer/>
   </Container> 
    
   )

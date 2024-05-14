@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 
 
@@ -108,6 +110,8 @@ const fetchMedicaments = async () => {
   };
 
   return (
+    <div>
+      <Header/>
     <Container>
       <ProductsContainer>
         {medicaments.map((medicament) => (
@@ -125,6 +129,8 @@ const fetchMedicaments = async () => {
         ))}
       </ProductsContainer>
     </Container>
+    <Footer/>
+    </div>
   );
 }
 
