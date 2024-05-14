@@ -3,6 +3,8 @@ const router = express.Router();
 const commandeController = require("../controllers/commandeController");
 const auth = require("../middleware/authentication");
 
-router.post("/commande", auth, commandeController.passerCommande);
-router.get("/listcommande", auth, commandeController.listCommandes);
+router.post("/commande", commandeController.passerCommande);
+router.get("/allcommandes", commandeController.getAllCommands);
+router.get("/commande/:id",commandeController.getCommandeByUser);
+
 module.exports = router;

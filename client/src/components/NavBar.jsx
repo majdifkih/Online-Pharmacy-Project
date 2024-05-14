@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import {UserOutlined,SearchOutlined,ShoppingTwoTone} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.svg'
-import  { Dropdown,Input,Badge,Drawer } from  'antd';
+import  { Dropdown,Input,Badge,Drawer,message } from  'antd';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { Button } from "antd";
+import { Button,Form,Slider,Upload } from "antd";
+import { PlusOutlined,DeleteOutlined,RightCircleOutlined } from '@ant-design/icons';
+
 
 const Container = styled.div `
 width: 100%;
@@ -109,6 +111,9 @@ const NavBar = () => {
   const [count,setCount] = useState(0);
   const [open, setOpen] = useState(false);
   const [cart,setCartItems] = useState([]);
+  const [innerDrawerOpen, setInnerDrawerOpen] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+  const [quantities, setQuantities] = useState({});
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const showDrawer = () => {
@@ -128,14 +133,25 @@ useEffect(()=>{
 },[cart]);
 
 
+const commandeMsg = () => {
+  messageApi.open({
+    type: 'success',
+    content: (
+      <span>
+          Votre Achat a été effectué avec succès.
+      </span>
+  ),
+  });
+};
 const fetchCartItems = async () =>{
-    try{
+try{
     const token=localStorage.getItem("token")
     const decodeToken = jwtDecode(token);
     const id = decodeToken.id;
+    if (token){
     const response = await axios.get(`http://localhost:4000/panier/getpanier/${id}`);
     setCartItems(response.data);
-   console.log(response.data);
+  }
     }catch (err){
       console.log(err.message);
     }
@@ -151,9 +167,34 @@ const fetchCartItems = async () =>{
       console.log(err.message);
     }
   }
+
+  const handleSliderChange = (value, itemId) => {
+    setQuantities(prevState => ({
+      ...prevState,
+      [itemId]: value
+    }));
+  };
+
+   const passerCommande = async ()=>{
+    try{
+      const token = localStorage.getItem("token");
+      const decodeToken = jwtDecode(token);
+      const userId = decodeToken.id;
+      const medicIds = cart.map(item => ({ medicId: item._id, quantity: quantities[item._id] || 1 }));
+      console.log(medicIds);
+      const response = await axios.post('http://localhost:4000/commande',{userId,medicaments: medicIds});
+      (response.status ===200)?commandeMsg():console.log("can't pass command");
+    }catch (err){
+      console.log(err.message);
+    }
+  } 
+
+  const removeItemFromCart = (itemId) => {
+    const updatedCart = cart.filter(item => item._id !== itemId);
+    setCartItems(updatedCart);
+  };
   
   const UnAuthitems = [
-    
     {
       label: (
         <StyledLink to="/login">
@@ -231,16 +272,62 @@ const items = token ? AuthItmes : UnAuthitems;
       {cart.map((item) => (
         <div key={item._id}>
           <p>
-            <b>Nom Médicament:</b> {item.nom} <b>Prix:</b> {item.prix} DT
+           <img src={item.image} style={{width:'60px'}} /><DeleteOutlined  style={{color:'red',position:'absolute',right:'25px',fontSize:'20px'}} onClick={() => removeItemFromCart(item._id)} />
           </p>
+          
         </div>
       ))}
-      <Button type="primary">Passer Commande</Button>
+          <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
+            <RightCircleOutlined  style={{fontSize:'35px',color:'#3DB2FF'}} onClick={() => setInnerDrawerOpen(true)} />
+          </div>
     </>
   ) : (
     <p></p>
   )}
-    </Drawer>
+
+<Drawer title="Passer Commande Formulaire" onClose={() => setInnerDrawerOpen(false)} open={innerDrawerOpen}>
+  {cart.map((item) => (
+    <div key={item._id}>
+      <p>
+        <b>Médicament:</b> {item.nom} 
+      </p>
+      <p>
+      <b>Prix:</b> {item.prix} DT
+      </p>
+      <Form.Item label="Quantité">
+        <Slider onChange={(value) => handleSliderChange(value, item._id)} value={quantities[item._id]} min ={1} max={25} />
+      </Form.Item>
+      {item.PersMedicOblig ? (
+        <Form.Item label="Ordonnance" valuePropName="fileList" required>
+          <Upload action="/upload.do" listType="picture-card">
+            <button
+              style={{
+                border: 0,
+                background: 'none',
+              }}
+              type="button"
+            >
+              <PlusOutlined />
+              <div
+                style={{
+                  marginTop: 8,
+                }}
+              >
+                Upload
+              </div>
+            </button>
+          </Upload>
+        </Form.Item>
+      ) : null}
+    </div>
+  ))}
+  <div style={{ position: 'absolute', bottom: '10px', right:'10px'}}>
+    {contextHolder}
+  <Button type='primary' onClick={passerCommande}> Passer Commande </Button>
+  </div>
+</Drawer>
+
+</Drawer>
   </Container>
   )
 }

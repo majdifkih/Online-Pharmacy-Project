@@ -26,7 +26,6 @@ function App() {
                  <Route path="commandes" element={<ListCommande/>} />
             </Route>
         </Routes>
-        
 
         <FloatButton.BackTop />
     </div>
