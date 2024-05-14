@@ -138,7 +138,7 @@ const commandeMsg = () => {
     type: 'success',
     content: (
       <span>
-          Votre avez passer votre Commande avec success
+          Votre Achat a été effectué avec succès.
       </span>
   ),
   });
@@ -272,7 +272,7 @@ const items = token ? AuthItmes : UnAuthitems;
       {cart.map((item) => (
         <div key={item._id}>
           <p>
-            <b>Nom Médicament:</b> {item.nom} <DeleteOutlined  style={{color:'red',position:'absolute',right:'25px',fontSize:'20px'}} onClick={() => removeItemFromCart(item._id)} />
+           <img src={item.image} style={{width:'60px'}} /><DeleteOutlined  style={{color:'red',position:'absolute',right:'25px',fontSize:'20px'}} onClick={() => removeItemFromCart(item._id)} />
           </p>
           
         </div>

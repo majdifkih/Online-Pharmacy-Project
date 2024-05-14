@@ -21,3 +21,26 @@ module.exports.passerCommande = async (req, res) => {
     console.log(err.message);
   }
 };
+
+module.exports.getAllCommands = async (req, res) => {
+  try {
+    const allCommandes = await Commande.find();
+    allCommandes ? res.status(200).json(allCommandes) : res.send("not found");
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+module.exports.getCommandeByUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userCommande = await Commande.findOne({ userId: id });
+    if (userCommande) {
+      res.status(200).send(userCommande);
+    } else {
+      res.status(404).send("no commandes for this user");
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+};
