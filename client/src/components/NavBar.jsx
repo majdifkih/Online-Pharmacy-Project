@@ -299,7 +299,7 @@ const items = token ? AuthItmes : UnAuthitems;
       </Form.Item>
       {item.PersMedicOblig ? (
         <Form.Item label="Ordonnance" valuePropName="fileList" required>
-          <Upload action="/upload.do" listType="picture-card">
+          <Upload action="/upload.do" listType="picture-card" required>
             <button
               style={{
                 border: 0,

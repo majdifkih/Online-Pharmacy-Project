@@ -77,7 +77,7 @@ const ListCommande = () => {
                     <StyledTableCell>{row.userId.username}</StyledTableCell>
                     <StyledTableCell align="right">{row.PrixTotal}</StyledTableCell>
                     <StyledTableCell>{new Date(row.date).toLocaleDateString()}</StyledTableCell>
-                    <StyledTableCell align="right">{row.statut}</StyledTableCell>
+                    <StyledTableCell align="right">{row.status}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
