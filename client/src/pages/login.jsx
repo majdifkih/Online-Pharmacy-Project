@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { jwtDecode } from 'jwt-decode';
+
 const Container = styled.div`
     margin-top: 2%;
     display: flex;
@@ -44,8 +46,15 @@ const Login = () => {
             if (response.status === 200) {
                 const token = response.data.token;
                 localStorage.setItem("token",token);
+                const decodedToken = jwtDecode(token);
+                const userRole = decodedToken.role;
+                if (userRole === 'admin'){
+                    navigate("/dash");
+                    window.location.reload();
+                }else if (userRole === 'client') {
                 navigate("/");
                 window.location.reload();
+            }
             } else {
                 navigate('/login');                
             }
@@ -89,7 +98,6 @@ const Login = () => {
                     </Form.Item>
                 </Form>
                 
-            
             </Section>
         </Container>
         <Footer/>

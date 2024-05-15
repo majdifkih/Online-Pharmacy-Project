@@ -17,7 +17,7 @@ position: sticky;
 `;
 
 const Wrapper = styled.div `
-    height: 40px;
+    height: 80px;
     max-width: 100%;
     padding: 20px 60px;
     z-index: 1000;
