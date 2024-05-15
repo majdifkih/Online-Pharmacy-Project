@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect,useState } from 'react';
 import axios from 'axios';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 import { Space, Table, Tag } from 'antd';
 
 
@@ -12,108 +14,77 @@ const Container = styled.div `
 `; 
 
 
-
 const UserCommandes = () => {
-    let [commandes, setCommandes] = useState([]);
-    let token = localStorage.getItem("token");
+let  [commandes, setCommandes] = useState([]);
+let token = localStorage.getItem("token");
 
+
+const fetchCommandes = async () => {
+    try{
+        const decodeToken = jwtDecode(token);
+        const id = decodeToken.id;
+        if (token){
+            const response = await axios.get(`http://localhost:4000/commande/${id}`);
+            setCommandes(response.data) 
+        }
+    } catch (err){
+        console.log(err.message);
+    }
+}
+
+  useEffect(() => { 
+    fetchCommandes()
+},[])
 
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
+    title: 'Medicaments',
+    dataIndex: 'medicaments',
+    key: 'medicaments',
+    render: (medicaments) => (
       <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
+        {medicaments.map(({ medicId, quantity }) => (
+          <div key={medicId._id}>
+            <b>{medicId.nom} *{quantity} </b>
+          </div>
+        ))}
       </>
     ),
   },
   {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
+    title: 'Date Commande',
+    dataIndex: 'date',
+    key: 'date',
+    render: (date) => <b>{new Date(date).toLocaleDateString()}</b>,
+  },
+  {
+    title: 'Status',
+    dataIndex: 'status',
+    key: 'status',
+    render: (status) => (
+      <Tag color={status === 'pending' ? 'orange' : status === 'pending' ? 'green' : 'red'}>
+        {status}
+      </Tag>
     ),
   },
-];
-const data = [
   {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
+    title: 'Total Price',
+    dataIndex: 'PrixTotal',
+    key: 'PrixTotal',
+    render: (price) => <b> {`${price} DT`} </b>,
   },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
+ 
 ];
 
-
-
-    useEffect(() => { 
-        const fetchCommandes = async () => {
-            try{
-                const decodeToken = jwtDecode(token);
-                const id = decodeToken.id;
-                if (token){
-                    const response = await axios.get(`http://localhost:4000/commande/${id}`);
-                    setCommandes(response.data);
-                }
-            } catch (err){
-                console.log(err.message);
-            }
-        }
-        fetchCommandes();
-    }, [token]);
 
   return (
+    <>
+  <Header />
    <Container>
-    <h2>Mes Commandes </h2>
-        
+    <Table dataSource={commandes} columns={columns} />    
    </Container>
-
+  <Footer />
+   </>
   )
 }
 

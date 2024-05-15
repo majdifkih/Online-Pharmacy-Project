@@ -5,8 +5,7 @@ module.exports.listCommandes = async (req, res) => {
   try {
     const commandes = await Commande.find()
       .populate("userId", "username")
-      .populate("medicaments.medicId", "nommedicament");
-
+      .populate("medicaments.medicId", "nom");
     res.json(commandes);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -37,9 +36,12 @@ module.exports.passerCommande = async (req, res) => {
 module.exports.getCommandeByUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const userCommande = await Commande.findOne({ userId: id });
+    const userCommande = await Commande.find({ userId: id }).populate(
+      "medicaments.medicId",
+      "nom"
+    );
     if (userCommande) {
-      res.status(200).send(userCommande);
+      res.status(200).json(userCommande);
     } else {
       res.status(404).send("no commandes for this user");
     }

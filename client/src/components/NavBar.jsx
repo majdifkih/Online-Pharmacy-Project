@@ -223,7 +223,7 @@ try{
         key: '2',
       },{
         label: (
-          <StyledLink to="/commandes">
+          <StyledLink to="/mescommandes">
             Mes Commandes
          </StyledLink>
         ),
