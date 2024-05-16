@@ -4,7 +4,7 @@ const commandeController = require("../controllers/commandeController");
 const auth = require("../middleware/authentication");
 
 router.post("/commande", commandeController.passerCommande);
-router.get("/listcommande", commandeController.listCommandes);
+router.get("/listcommande", commandeController.getAllCommands);
 router.get("/commande/:id", commandeController.getCommandeByUser);
 
 module.exports = router;
