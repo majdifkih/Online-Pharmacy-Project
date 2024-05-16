@@ -50,3 +50,26 @@ module.exports.getCommandeByUser = async (req, res) => {
     console.log(err.message);
   }
 };
+
+module.exports.ChangerStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const userCommande = await Commande.findOneAndUpdate(
+      { _id: id },
+      { status: status },
+      { new: true }
+    );
+
+    if (userCommande) {
+      res.status(200).json(userCommande);
+    } else {
+      res.status(404).send("No commandes for this user");
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+

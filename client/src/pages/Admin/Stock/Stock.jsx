@@ -12,8 +12,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-
-
+import InfoIcon from '@mui/icons-material/Info';
+import Tooltip from '@mui/material/Tooltip';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#3C91E6',
@@ -74,16 +74,14 @@ const Stock = () => {
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>
-                <TableRow>
+                <TableRow >
                   <StyledTableCell>ID</StyledTableCell>
                   <StyledTableCell>Nom</StyledTableCell>
-                  <StyledTableCell>Description</StyledTableCell>
                   <StyledTableCell>Prix</StyledTableCell>
                   <StyledTableCell>Quantité</StyledTableCell>
                   <StyledTableCell>Statut</StyledTableCell>
-                  <StyledTableCell>Prescription Obligatoire</StyledTableCell>
                   <StyledTableCell>Image</StyledTableCell>
-                  <StyledTableCell align="center">Actions</StyledTableCell>
+                  <StyledTableCell>Actions</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -94,17 +92,20 @@ const Stock = () => {
                         {index + 1}
                       </StyledTableCell>
                       <StyledTableCell>{row.nom}</StyledTableCell>
-                      <StyledTableCell>{row.description}</StyledTableCell>
                       <StyledTableCell>{row.prix}</StyledTableCell>
                       <StyledTableCell>{row.quantite}</StyledTableCell>
                       <StyledTableCell>{row.statut}</StyledTableCell>
-                      <StyledTableCell>{row.PersMedicOblig ? "Oui" : "Non"}</StyledTableCell>
                       <StyledTableCell>
                         <img src={row.image} alt={row.nom} style={{ width: 50, height: 50 }} />
                       </StyledTableCell>
-                      <StyledTableCell align="center">
+                      <StyledTableCell align="center" style={{display:'flex',gap:'5%'}}>
+                        <div style={{display:'flex',gap:'5%'}}>
                         <Button variant="contained" color="primary" onClick={()=>navigate(`/editmedicament/${row._id}`)}>Edit</Button>
-                        <Button variant="contained" color="secondary" onClick={()=>handledel(row._id)} >Delete</Button>
+                        <Button variant="contained" style={{backgroundColor:'#f95454'}} onClick={()=>handledel(row._id)} >Delete</Button>
+                        <Tooltip title="More details">
+                        <InfoIcon sx={{ fontSize: 30,cursor: 'pointer' }} color="action"/>
+                        </Tooltip>
+                        </div>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))
