@@ -1,17 +1,6 @@
 const Commande = require("../models/commande");
 const Medicament = require("../models/medicament");
-module.exports.listCommandes = async (req, res) => {
-  try {
-    
-    const commandes = await Commande.find()
-      .populate('userId', 'username') 
-      .populate('medicaments.medicId', 'nommedicament'); 
-    
-    res.json(commandes);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+
 
 
 module.exports.passerCommande = async (req, res) => {
@@ -37,7 +26,9 @@ module.exports.passerCommande = async (req, res) => {
 
 module.exports.getAllCommands = async (req, res) => {
   try {
-    const allCommandes = await Commande.find();
+    const allCommandes = await Commande.find()
+              .populate('userId', 'username') 
+              .populate('medicaments.medicId', 'nommedicament'); ;
     allCommandes ? res.status(200).json(allCommandes) : res.send("not found");
   } catch (err) {
     console.log(err.message);

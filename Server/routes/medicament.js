@@ -30,7 +30,7 @@ router.post(
 );
 
 // PUT /medicaments/:id
-router.put("/edit/:id", medicamentController.editMedicament);
+router.put("/edit/:id", upload.single('image'),medicamentController.editMedicament);
 
 // DELETE /medicaments/:id
 router.delete("/del/:id", medicamentController.deleteMedicament);
