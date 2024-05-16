@@ -3,7 +3,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import logo from "../../assets/logo.png"
 
-import "../../pages/Dashboard/dash.css";
+import "../../pages/Admin/dash.css";
 const NavBarAdmin = () => {
     return (
 <nav>

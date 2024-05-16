@@ -7,8 +7,11 @@ import {FloatButton } from 'antd';
 import Register from './pages/Register';
 import Medicaments from './pages/Medicaments';
 import MedicamentDetail from './pages/MedicamentDetail';
-import Dashboard from './pages/Dashboard/Dashboard';
-import ListCommande from './pages/Commande/ListCommande';
+import Dashboard from './pages/Admin/Dashboard';
+import ListCommande from './pages/Admin/ListCommande';
+import Stock from './pages/Admin/Stock/Stock';
+import AddStock from './pages/Admin/Stock/AddStock';
+import EditStock from './pages/Admin/Stock/EditStock';
 
 function App() {
   return (
@@ -24,6 +27,9 @@ function App() {
 
                  <Route path="dash" element={<Dashboard/>} />
                  <Route path="commandes" element={<ListCommande/>} />
+                 <Route path="medicaments" element={<Stock/>} />
+                 <Route path="addmedicament" element={<AddStock/>} />
+                 <Route path="editmedicament/:id" element={<EditStock/>} />
             </Route>
         </Routes>
 

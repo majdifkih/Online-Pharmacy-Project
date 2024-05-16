@@ -35,19 +35,20 @@ const ListCommande = () => {
   const [rows, setRows] = useState([]);
  
   const listCommandes = async () => {
-
-    axios.get('http://localhost:4000/listcommande')
-      .then(response => {
+    try {
+      const response = await axios.get('http://localhost:4000/allcommandes')
+      
         setRows(response.data);
-      })
-      .catch(error => {
+    }catch (error) {
         console.error('There was an error fetching the data!', error);
-      });
+      };
   };
 
   useEffect(() => {
-    listCommandes()
+    listCommandes();
   }, []);
+
+  
 
   return (
     <div className="admin_dashbord">
@@ -63,23 +64,31 @@ const ListCommande = () => {
                 <TableRow>
                   <StyledTableCell>ID</StyledTableCell>
                   <StyledTableCell>Client</StyledTableCell>
-                  <StyledTableCell align="right">Prix Total</StyledTableCell>
+                  <StyledTableCell >Prix Total</StyledTableCell>
                   <StyledTableCell>Date</StyledTableCell>
                   <StyledTableCell align="right">Statut</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row._id}>
-                    <StyledTableCell component="th" scope="row">
-                      {row._id}
+                {rows.length > 0 ? (
+                  rows.map((row,index) => (
+                    <StyledTableRow >
+                      <StyledTableCell component="th" scope="row">
+                        {index+1}
+                      </StyledTableCell>
+                      <StyledTableCell>{row.userId.username}</StyledTableCell>
+                      <StyledTableCell >{row.PrixTotal}</StyledTableCell>
+                      <StyledTableCell>{new Date(row.date).toLocaleDateString()}</StyledTableCell>
+                      <StyledTableCell align="right">{row.statut}</StyledTableCell>
+                    </StyledTableRow>
+                  ))
+                ) : (
+                  <StyledTableRow>
+                    <StyledTableCell colSpan={5} align="center">
+                      Aucune commande trouvée
                     </StyledTableCell>
-                    <StyledTableCell>{row.userId.username}</StyledTableCell>
-                    <StyledTableCell align="right">{row.PrixTotal}</StyledTableCell>
-                    <StyledTableCell>{new Date(row.date).toLocaleDateString()}</StyledTableCell>
-                    <StyledTableCell align="right">{row.statut}</StyledTableCell>
                   </StyledTableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </TableContainer>

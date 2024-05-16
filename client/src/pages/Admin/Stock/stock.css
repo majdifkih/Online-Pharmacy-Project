@@ -1,0 +1,33 @@
+.form{
+   margin-left: 30%;
+}
+
+/* Styles for labels */
+.form-label {
+    color: rgb(57, 56, 56);
+    font-weight: bold;
+    
+  }
+  
+  /* Styles for form controls */
+  .form-control {
+    margin-bottom: 8%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+    width: 100%;
+    box-shadow:2px 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: large;
+  }
+  
+  /* Styles for checkboxes */
+  .form-check-input {
+    margin-top: 8px;
+    box-shadow:2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Styles for buttons */
+  .button-secondary {
+    margin-right: 10px;
+  }
+  
