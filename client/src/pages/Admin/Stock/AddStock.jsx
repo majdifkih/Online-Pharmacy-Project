@@ -33,6 +33,7 @@ const AddStock = () => {
     try {
       
       const response = await axios.post('http://localhost:4000/medicament/add', formData);
+      navigate("/medicaments")
   console.log("Ajout avec succés",response);
     } catch (error) {
 
@@ -43,7 +44,7 @@ const AddStock = () => {
     const file = e.target.files[0];
     setImage(file);
   };
-
+  
   return (
 
     <div className="admin_dashbord">

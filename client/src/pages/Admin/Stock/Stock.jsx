@@ -50,6 +50,15 @@ const Stock = () => {
     listMedicaments();
   }, []);
 
+  const handledel = async (id) => {
+    try{
+      await axios.delete(`http://localhost:4000/medicament/del/${id}`);
+      console.log("supprimer avec succès");
+      setRows(rows.filter((row) => row._id !== id));
+    }catch(error){
+      console.error('Une erreur s\'est produite lors de supprimer du médicament :', error);
+    }
+  }
 
 
   return (
@@ -95,7 +104,7 @@ const Stock = () => {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <Button variant="contained" color="primary" onClick={()=>navigate(`/editmedicament/${row._id}`)}>Edit</Button>
-                        <Button variant="contained" color="secondary">Delete</Button>
+                        <Button variant="contained" color="secondary" onClick={()=>handledel(row._id)} >Delete</Button>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))

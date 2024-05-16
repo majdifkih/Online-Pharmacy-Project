@@ -45,7 +45,7 @@ useEffect(()=>{
                  <Route path='contact' element = {<Contact />} />
                  <Route path='mescommandes' element = {<UserCommandes />} />
                  <Route path='MedicDetail/:id'  element={<MedicamentDetail />} />
-                 <Route path="dash" element={role ? <Dashboard/>:<Home />} />
+                 <Route path="dash" element={<Dashboard/>} />
                  <Route path="commandes" element={<ListCommande/>} />
                  <Route path="medicaments" element={<Stock/>} />
                  <Route path="addmedicament" element={<AddStock/>} />

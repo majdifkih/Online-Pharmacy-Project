@@ -36,7 +36,7 @@ const ListCommande = () => {
  
   const listCommandes = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/allcommandes')
+      const response = await axios.get('http://localhost:4000/listcommande')
       
         setRows(response.data);
     }catch (error) {
