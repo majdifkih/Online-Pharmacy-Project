@@ -17,7 +17,7 @@ position: sticky;
 `;
 
 const Wrapper = styled.div `
-    height: 40px;
+    height: 80px;
     max-width: 100%;
     padding: 20px 60px;
     z-index: 1000;
@@ -223,7 +223,7 @@ try{
         key: '2',
       },{
         label: (
-          <StyledLink to="/commandes">
+          <StyledLink to="/mescommandes">
             Mes Commandes
          </StyledLink>
         ),
@@ -299,7 +299,7 @@ const items = token ? AuthItmes : UnAuthitems;
       </Form.Item>
       {item.PersMedicOblig ? (
         <Form.Item label="Ordonnance" valuePropName="fileList" required>
-          <Upload action="/upload.do" listType="picture-card">
+          <Upload action="/upload.do" listType="picture-card" required>
             <button
               style={{
                 border: 0,

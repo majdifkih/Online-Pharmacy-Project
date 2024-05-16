@@ -9,9 +9,6 @@ const Dashboard = () => {
   return (
     <div className="admin_dashbord">
 	<SideBar/>
-
-
-
 	<section id="content">
 		<NavBarAdmin/>
 		

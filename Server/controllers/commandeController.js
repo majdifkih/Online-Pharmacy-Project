@@ -2,7 +2,6 @@ const Commande = require("../models/commande");
 const Medicament = require("../models/medicament");
 
 
-
 module.exports.passerCommande = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -38,9 +37,12 @@ module.exports.getAllCommands = async (req, res) => {
 module.exports.getCommandeByUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const userCommande = await Commande.findOne({ userId: id });
+    const userCommande = await Commande.find({ userId: id }).populate(
+      "medicaments.medicId",
+      "nom"
+    );
     if (userCommande) {
-      res.status(200).send(userCommande);
+      res.status(200).json(userCommande);
     } else {
       res.status(404).send("no commandes for this user");
     }
