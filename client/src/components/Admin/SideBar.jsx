@@ -33,30 +33,17 @@ const SideBar = () => {
 			</li>
 			<li class="side-li">
 				<Link to="/medicaments" className='side-link'>
-					<i class='bx bxs-doughnut-chart' ></i>
+				<i class='bx bxs-group' ><ProductOutlined /></i>
 					<span class="text">Medicaments</span>
 				</Link>
 			</li>
-			<li class="side-li">
-			
-				<Link to="/" className='side-link'>
-					<i class='bx bxs-message-dots' ></i>
-					<span class="text">Message</span>
-				</Link>
-				
-			</li>
-			<li class="side-li">
-				<Link to="/" className='side-link'>
-					<i class='bx bxs-group' ><ProductOutlined /></i>
-					<span class="text">Team</span>
-				</Link>
-			</li>
+		
 		</ul>
 		<ul class="side-menu">
 			<li class="side-li">
 				<Link to="#" className='side-link'>
 					<i class='bx bxs-cog' ><SettingOutlined /></i>
-					<span class="text">Settings</span>
+					<span class="text">Profil</span>
 				</Link>
 			</li>
 			<li class="side-li" onClick={handleLogout}>

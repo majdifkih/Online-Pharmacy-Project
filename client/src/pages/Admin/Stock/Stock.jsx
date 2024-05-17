@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import InfoIcon from '@mui/icons-material/Info';
 import Tooltip from '@mui/material/Tooltip';
+import {Modal} from 'antd';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#3C91E6',
@@ -35,6 +36,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Stock = () => {
   const [rows, setRows] = useState([]);
+  const [id, setId] = useState('');
   const navigate = useNavigate();
 
   const listMedicaments = async () => {
@@ -54,11 +56,22 @@ const Stock = () => {
     try{
       await axios.delete(`http://localhost:4000/medicament/del/${id}`);
       console.log("supprimer avec succès");
+      setIsModalOpen(false);
       setRows(rows.filter((row) => row._id !== id));
     }catch(error){
       console.error('Une erreur s\'est produite lors de supprimer du médicament :', error);
     }
   }
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = (id) => {
+    setId(id);
+    setIsModalOpen(true);
+  };
+ 
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
 
   return (
@@ -101,9 +114,10 @@ const Stock = () => {
                       <StyledTableCell align="center" style={{display:'flex',gap:'5%'}}>
                         <div style={{display:'flex',gap:'5%'}}>
                         <Button variant="contained" color="primary" onClick={()=>navigate(`/editmedicament/${row._id}`)}>Edit</Button>
-                        <Button variant="contained" style={{backgroundColor:'#f95454'}} onClick={()=>handledel(row._id)} >Delete</Button>
-                        <Tooltip title="More details">
-                        <InfoIcon sx={{ fontSize: 30,cursor: 'pointer' }} color="action"/>
+                        <Button variant="contained" style={{backgroundColor:'#f95454'}} onClick={()=>showModal(row._id)} >Delete</Button>
+                       
+                        <Tooltip title="More details" >
+                        <InfoIcon sx={{ fontSize: 30,cursor: 'pointer' }} color="action"  onClick={()=>navigate(`/detailmedicament/${row._id}`)}/>
                         </Tooltip>
                         </div>
                       </StyledTableCell>
@@ -119,6 +133,15 @@ const Stock = () => {
               </TableBody>
             </Table>
           </TableContainer>
+          <Modal
+    title="Delete Confirmation"
+    open={isModalOpen}
+    onOk={() => handledel(id)}
+    okText="Confirm"
+    onCancel={handleCancel}
+  >
+    <p className='alert-msg'>Are you sure to delete the medication?</p>
+  </Modal>
         </main>
       </section>
 

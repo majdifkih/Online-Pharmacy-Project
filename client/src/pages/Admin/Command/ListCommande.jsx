@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Commande.css';
 import axios from 'axios';
-import NavBarAdmin from '../../components/Admin/NavBarAdmin';
-import SideBar from '../../components/Admin/SideBar';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import { Form } from 'react-bootstrap';
@@ -15,6 +13,9 @@ import Paper from '@mui/material/Paper';
 import { message } from 'antd';
 import InfoIcon from '@mui/icons-material/Info';
 import Tooltip from '@mui/material/Tooltip';
+import SideBar from '../../../components/Admin/SideBar';
+import NavBarAdmin from '../../../components/Admin/NavBarAdmin';
+import { useNavigate } from 'react-router-dom';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#3C91E6',
@@ -37,6 +38,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const ListCommande = () => {
   const [rows, setRows] = useState([]);
 
+  const navigate = useNavigate();
   const listCommandes = async () => {
     try {
       const response = await axios.get('http://localhost:4000/listcommande');
@@ -85,7 +87,7 @@ const ListCommande = () => {
                   <StyledTableCell>Client</StyledTableCell>
                   <StyledTableCell>Prix Total</StyledTableCell>
                   <StyledTableCell>Date</StyledTableCell>
-                  <StyledTableCell align="center">Statut</StyledTableCell>
+                  <StyledTableCell align='center' >Statut</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -98,8 +100,10 @@ const ListCommande = () => {
                       <StyledTableCell>{row.userId.username}</StyledTableCell>
                       <StyledTableCell>{row.PrixTotal}</StyledTableCell>
                       <StyledTableCell>{new Date(row.date).toLocaleDateString()}</StyledTableCell>
-                      <StyledTableCell align="right">
-                      <div style={{display:'flex',gap:'5%'}}>
+                      <StyledTableCell align='right' style={{display:'flex',gap:'7%'}}>
+                      <Tooltip title="More details">
+                        <InfoIcon sx={{ fontSize: 30,cursor: 'pointer' }} color="action" onClick={()=>navigate(`/detailcommand/${row._id}`)}/>
+                        </Tooltip>
                         <Form.Select
                           value={row.status}
                           onChange={(e) => updateStatus(e.target.value, row._id)}
@@ -115,10 +119,8 @@ const ListCommande = () => {
                           <option value="Accepted">Accepted</option>
                           <option value="Rejected">Rejected</option>
                         </Form.Select>
-                        <Tooltip title="More details">
-                        <InfoIcon sx={{ fontSize: 30,cursor: 'pointer' }} color="action"/>
-                        </Tooltip>
-                        </div>
+                       
+                       
                       </StyledTableCell>
                     </StyledTableRow>
                   ))

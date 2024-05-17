@@ -27,7 +27,7 @@ module.exports.getAllCommands = async (req, res) => {
   try {
     const allCommandes = await Commande.find()
               .populate('userId', 'username') 
-              .populate('medicaments.medicId', 'nommedicament'); ;
+              .populate('medicaments.medicId', 'nommedicament'); 
     allCommandes ? res.status(200).json(allCommandes) : res.send("not found");
   } catch (err) {
     console.log(err.message);
@@ -45,6 +45,21 @@ module.exports.getCommandeByUser = async (req, res) => {
       res.status(200).json(userCommande);
     } else {
       res.status(404).send("no commandes for this user");
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+module.exports.getOneCommande = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const Commande = await Commande.find(id)
+    .populate('userId', 'username') 
+    .populate('medicaments.medicId', 'nom'); 
+    if (Commande) {
+      res.status(200).json(Commande);
+    } else {
+      res.status(404).send("no commande info");
     }
   } catch (err) {
     console.log(err.message);
