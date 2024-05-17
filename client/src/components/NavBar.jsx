@@ -189,9 +189,18 @@ try{
     }
   } 
 
-  const removeItemFromCart = (itemId) => {
+  const removeItemFromCart =  async (itemId) => {
+  try {  
+    const token = localStorage.getItem("token");
+    const decodeToken = jwtDecode(token);
+    const userId = decodeToken.id;
+    await axios.delete("http://localhost:4000/panier/remove/",{ data: { userId, medicId: itemId } });
     const updatedCart = cart.filter(item => item._id !== itemId);
     setCartItems(updatedCart);
+    message.success('Item removed from cart successfully!');
+  }catch(err){
+    console.log(err.message)
+  }
   };
   
   const UnAuthitems = [

@@ -36,3 +36,21 @@ exports.getallpalnierbyuser = async (req, res) => {
     res.status(400).json("failed to get panier");
   }
 };
+
+exports.deleteItemFromPanier = async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const medicId = req.body.medicId;
+    const newPanier = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { panier: medicId },
+      },
+      { new: true }
+    );
+    res.json("Medication removed from panier successfully!");
+  } catch (error) {
+    console.log(error);
+    res.status(400).json("Failed to remove medication from panier");
+  }
+};
