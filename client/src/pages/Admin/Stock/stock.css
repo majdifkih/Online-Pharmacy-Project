@@ -30,4 +30,67 @@
   .button-secondary {
     margin-right: 10px;
   }
+  .alert-msg{
+    font-weight: bold;
+    margin-left: 20%;
+    margin-top: 10px;
+   text-transform: uppercase;
+   color:gray !important;
+  }
+  .info-group {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce */
+    padding: 15px;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.5s ease; /* Ajoute une animation de fondu lors de l'apparition */
+  }
   
+  .info-group legend {
+    font-weight: bold;
+  }
+  
+  
+  
+ 
+  
+  
+  legend {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #3C91E6;
+  }
+  
+  .details-items{
+    margin: 5px 0;
+    display: flex;
+    gap: 2%;
+    padding: 2%;
+    font-size: 1em;
+  }
+  .items-contient{
+    font-weight: bold;
+  }
+  
+  .title-Detailmedica {
+   text-align: center;
+    color: #3C91E6;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+  }
+  .backbtn-detail-medica{
+    margin: 2% 0 0 5%;
+  border: 1px solid rgb(177, 175, 175);
+  border-radius: 5px;
+  background-color: rgb(225, 225, 226);
+  width: 12%;
+  cursor: pointer;
+  }
+  
+ .img-detail-medica {
+    max-width: 10%;
+    max-height: 10%;
+    border-radius: 5px;
+    margin-bottom: 10%;
+    float: right;
+  }

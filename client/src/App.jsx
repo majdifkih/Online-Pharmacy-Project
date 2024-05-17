@@ -11,11 +11,13 @@ import Register from './pages/Register';
 import Medicaments from './pages/Medicaments';
 import MedicamentDetail from './pages/MedicamentDetail';
 import Dashboard from './pages/Admin/Dashboard';
-import ListCommande from './pages/Admin/ListCommande';
+import ListCommande from './pages/Admin/Command/ListCommande';
 import Stock from './pages/Admin/Stock/Stock';
 import AddStock from './pages/Admin/Stock/AddStock';
 import EditStock from './pages/Admin/Stock/EditStock';
 import UserCommandes from './pages/UserCommandes';
+import StockDetail from './pages/Admin/Stock/StockDetail';
+import CommandDetail from './pages/Admin/Command/CommandDetail';
 
 
 
@@ -50,6 +52,8 @@ useEffect(()=>{
                  <Route path="medicaments" element={<Stock/>} />
                  <Route path="addmedicament" element={<AddStock/>} />
                  <Route path="editmedicament/:id" element={<EditStock/>} />
+                 <Route path="detailmedicament/:id" element={<StockDetail/>} />
+                 <Route path="detailcommand/:id" element={<CommandDetail/>} />
             </Route>
         </Routes>
 
