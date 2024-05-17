@@ -113,7 +113,7 @@ const ListCommande = () => {
                         >
                           <option value="Pending">Pending</option>
                           <option value="Accepted">Accepted</option>
-                          <option value="Suspended">Suspended</option>
+                          <option value="Rejected">Rejected</option>
                         </Form.Select>
                         <Tooltip title="More details">
                         <InfoIcon sx={{ fontSize: 30,cursor: 'pointer' }} color="action"/>
