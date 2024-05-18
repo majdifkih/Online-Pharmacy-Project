@@ -1,11 +1,9 @@
 const Commande = require("../models/commande");
 const Medicament = require("../models/medicament");
 
-
 module.exports.passerCommande = async (req, res) => {
   try {
-    const { userId } = req.body;
-    const { medicaments } = req.body;
+    const { userId, medicaments } = req.body;
     let prixTotal = 0;
     for (const medicament of medicaments) {
       const { prix } = await Medicament.findById(medicament.medicId);
@@ -16,6 +14,9 @@ module.exports.passerCommande = async (req, res) => {
       userId: userId,
       PrixTotal: prixTotal,
     });
+    if (req.file) {
+      commande.ordonnance = `http://localhost:4000/${req.file.path}`;
+    }
     const verifCommande = await commande.save();
     verifCommande ? res.status(200).send(verifCommande) : res.send("error");
   } catch (err) {
@@ -26,8 +27,8 @@ module.exports.passerCommande = async (req, res) => {
 module.exports.getAllCommands = async (req, res) => {
   try {
     const allCommandes = await Commande.find()
-              .populate('userId', 'username') 
-              .populate('medicaments.medicId', 'nommedicament'); 
+      .populate("userId", "username")
+      .populate("medicaments.medicId", "nom");
     allCommandes ? res.status(200).json(allCommandes) : res.send("not found");
   } catch (err) {
     console.log(err.message);
@@ -54,8 +55,8 @@ module.exports.getOneCommande = async (req, res) => {
   try {
     const { id } = req.params;
     const Commande = await Commande.find(id)
-    .populate('userId', 'username') 
-    .populate('medicaments.medicId', 'nom'); 
+      .populate("userId", "username")
+      .populate("medicaments.medicId", "nom");
     if (Commande) {
       res.status(200).json(Commande);
     } else {
@@ -87,4 +88,3 @@ module.exports.ChangerStatus = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
-

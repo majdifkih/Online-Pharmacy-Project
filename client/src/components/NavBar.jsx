@@ -111,6 +111,7 @@ const NavBar = () => {
   const [count,setCount] = useState(0);
   const [open, setOpen] = useState(false);
   const [cart,setCartItems] = useState([]);
+  const [fileList,setFileList] = useState([]);
   const [innerDrawerOpen, setInnerDrawerOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [quantities, setQuantities] = useState({});
@@ -175,14 +176,27 @@ try{
     }));
   };
 
+  const handleUploadChange = ({ fileList }) => {
+    setFileList(fileList);
+  };
+
    const passerCommande = async ()=>{
     try{
       const token = localStorage.getItem("token");
       const decodeToken = jwtDecode(token);
       const userId = decodeToken.id;
       const medicIds = cart.map(item => ({ medicId: item._id, quantity: quantities[item._id] || 1 }));
+      const formData = new FormData();
+      formData.append('userId',userId);
+      formData.append('medicaments', JSON.stringify(medicIds));
+      if (fileList.length > 0 ) {
+        formData.append('ordonnance',fileList[0].originFileObj);
+      }
       console.log(medicIds);
-      const response = await axios.post('http://localhost:4000/commande',{userId,medicaments: medicIds});
+      const response = await axios.post('http://localhost:4000/commande', formData,{
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },});
       (response.status ===200)?commandeMsg():console.log("can't pass command");
     }catch (err){
       console.log(err.message);
@@ -308,7 +322,11 @@ const items = token ? AuthItmes : UnAuthitems;
       </Form.Item>
       {item.PersMedicOblig ? (
         <Form.Item label="Ordonnance" valuePropName="fileList" required>
-          <Upload action="/upload.do" listType="picture-card" required>
+          <Upload 
+          fileList={fileList}
+          onChange={handleUploadChange}
+          beforeUpload={() => false}
+          accept=".pdf,.jpg,.png">
             <button
               style={{
                 border: 0,

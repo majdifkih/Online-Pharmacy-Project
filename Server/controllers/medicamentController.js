@@ -86,25 +86,18 @@ module.exports.editMedicament = async (req, res) => {
     const { id } = req.params;
     const { nom, description, prix, quantite,PersMedicOblig  } = req.body;
     const updateData = { nom, description, prix, quantite, PersMedicOblig };
-
-    
     const medicament = await Medicament.findByIdAndUpdate(id, updateData, { new: true });
-
-
     if (!medicament) {
       return res.status(404).json({ message: "Médicament non trouvé" });
     }
-
     // Mettre à jour le statut du médicament si la quantité est inférieure à 0
     if (medicament.quantite <= 0) {
       medicament.statut = "Indisponible";
     } else {
       medicament.statut = "Disponible";
     }
-
     // Enregistrer les modifications dans la base de données
     await medicament.save();
-
     res.json(medicament);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -115,14 +108,11 @@ module.exports.editMedicament = async (req, res) => {
 module.exports.deleteMedicament = async (req, res) => {
   try {
     const { id } = req.params;
-
     // Rechercher le médicament par son ID et le supprimer
     const medicament = await Medicament.findByIdAndDelete(id);
-
     if (!medicament) {
       return res.status(404).json({ message: "Médicament non trouvé" });
     }
-
     res.json({ message: "Médicament supprimé" });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -30,6 +30,9 @@ const commandeSchema = new mongoose.Schema({
     type: String,
     default: "Pending",
   },
+  ordonnance: {
+    type: String,
+  },
 });
 
 const Commande = mongoose.model("Commande", commandeSchema);
