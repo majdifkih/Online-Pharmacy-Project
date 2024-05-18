@@ -34,8 +34,13 @@ const CommandDetail = () => {
                                 <legend>Command Informations</legend>
                                 <p className='details-items'><span className='items-contient'>Client :</span> {commande.userId.username}</p>
                                 <p className='details-items'><span className='items-contient'>Prix Total :</span> {commande.PrixTotal}</p>
-                                <p className='details-items'><span className='items-contient'>Médicaments :</span> {commande.medicaments[0]?.medicId?.nom}</p>
-                                <p className='details-items'><span className='items-contient'>Quantité :</span> {commande.medicaments[0]?.quantity}</p>
+                                <p className='details-items'><span className='items-contient'>Médicaments :</span>  <ul>
+                                    {commande.medicaments.map((medicament, index) => (
+                                        <li key={index}>
+                                            {medicament.medicId?.nom ? medicament.medicId.nom:"inconnu"} , {medicament?.quantity}
+                                        </li>
+                                    ))}
+                                </ul></p>
                                 <p className='details-items'><span className='items-contient'>Date :</span>{new Date(commande.date).toLocaleDateString()}</p>
                                 <p className='details-items'><span className='items-contient'>Statut :</span> {commande.status}</p>
                             </fieldset>

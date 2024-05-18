@@ -27,3 +27,21 @@
     text-align: center;
     padding: 5px;
   }
+
+
+  .sort-options {
+    margin-bottom: 15px;
+    margin-left: 80%;
+  }
+  
+  .sort-options label {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  .sort-options select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;}

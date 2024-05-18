@@ -10,12 +10,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { message } from 'antd';
+import { message, Alert } from 'antd';
 import InfoIcon from '@mui/icons-material/Info';
 import Tooltip from '@mui/material/Tooltip';
 import SideBar from '../../../components/Admin/SideBar';
 import NavBarAdmin from '../../../components/Admin/NavBarAdmin';
 import { useNavigate } from 'react-router-dom';
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#3C91E6',
@@ -37,8 +38,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const ListCommande = () => {
   const [rows, setRows] = useState([]);
-
+  const [sortOption, setSortOption] = useState("client");
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+
   const listCommandes = async () => {
     try {
       const response = await axios.get('http://localhost:4000/listcommande');
@@ -51,8 +54,6 @@ const ListCommande = () => {
   useEffect(() => {
     listCommandes();
   }, []);
-
-  const [messageApi, contextHolder] = message.useMessage();
 
   const updateStatus = async (status, id) => {
     try {
@@ -71,6 +72,19 @@ const ListCommande = () => {
     }
   };
 
+  const sortedAndFilteredCommandes = rows.sort((a, b) => {
+    if (sortOption === "client") {
+      return a.userId.username.localeCompare(b.userId.username);
+    } else if (sortOption === "date") {
+      return new Date(a.date) - new Date(b.date);
+    } else if (sortOption === "prix") {
+      return a.PrixTotal - b.PrixTotal;
+    } else if (sortOption === "status") {
+      return a.status.localeCompare(b.status);
+    }
+    return 0;
+  });
+
   return (
     <div className="admin_dashbord">
       {contextHolder}
@@ -79,6 +93,18 @@ const ListCommande = () => {
         <NavBarAdmin />
         <main>
           <h1>Liste des Commandes</h1>
+          <div className="sort-options">
+            <label>Trier par :</label>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="client">Client</option>
+              <option value="date">Date</option>
+              <option value="prix">Prix Total</option>
+              <option value="status">Statut</option>
+            </select>
+          </div>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>
@@ -87,12 +113,12 @@ const ListCommande = () => {
                   <StyledTableCell>Client</StyledTableCell>
                   <StyledTableCell>Prix Total</StyledTableCell>
                   <StyledTableCell>Date</StyledTableCell>
-                  <StyledTableCell align='center' >Statut</StyledTableCell>
+                  <StyledTableCell align='center'>Statut</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.length > 0 ? (
-                  rows.map((row, index) => (
+                {sortedAndFilteredCommandes.length > 0 ? (
+                  sortedAndFilteredCommandes.map((row, index) => (
                     <StyledTableRow key={row._id}>
                       <StyledTableCell component="th" scope="row">
                         {index + 1}
@@ -100,9 +126,9 @@ const ListCommande = () => {
                       <StyledTableCell>{row.userId.username}</StyledTableCell>
                       <StyledTableCell>{row.PrixTotal}</StyledTableCell>
                       <StyledTableCell>{new Date(row.date).toLocaleDateString()}</StyledTableCell>
-                      <StyledTableCell align='right' style={{display:'flex',gap:'7%'}}>
-                      <Tooltip title="More details">
-                        <InfoIcon sx={{ fontSize: 30,cursor: 'pointer' }} color="action" onClick={()=>navigate(`/detailcommand/${row._id}`)}/>
+                      <StyledTableCell align='right' style={{ display: 'flex', gap: '7%' }}>
+                        <Tooltip title="More details">
+                          <InfoIcon sx={{ fontSize: 30, cursor: 'pointer' }} color="action" onClick={() => navigate(`/detailcommand/${row._id}`)} />
                         </Tooltip>
                         <Form.Select
                           value={row.status}
@@ -119,8 +145,6 @@ const ListCommande = () => {
                           <option value="Accepted">Accepted</option>
                           <option value="Rejected">Rejected</option>
                         </Form.Select>
-                       
-                       
                       </StyledTableCell>
                     </StyledTableRow>
                   ))

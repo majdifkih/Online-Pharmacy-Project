@@ -94,3 +94,24 @@
     margin-bottom: 10%;
     float: right;
   }
+  .right-head{
+    display: flex;
+    gap: 50px;
+  }
+
+  .sort-options-medicat{
+    margin-top: 20px;
+    margin-left: 80%;
+  }
+  
+  .medica-label {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  .medica-select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;}

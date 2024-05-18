@@ -14,7 +14,8 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import InfoIcon from '@mui/icons-material/Info';
 import Tooltip from '@mui/material/Tooltip';
-import {Modal} from 'antd';
+import { Modal } from 'antd';
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#3C91E6',
@@ -37,6 +38,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Stock = () => {
   const [rows, setRows] = useState([]);
   const [id, setId] = useState('');
+  const [sortOption, setSortOption] = useState('nom');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const listMedicaments = async () => {
@@ -53,26 +56,36 @@ const Stock = () => {
   }, []);
 
   const handledel = async (id) => {
-    try{
+    try {
       await axios.delete(`http://localhost:4000/medicament/del/${id}`);
-      console.log("supprimer avec succès");
       setIsModalOpen(false);
-      setRows(rows.filter((row) => row._id !== id));
-    }catch(error){
-      console.error('Une erreur s\'est produite lors de supprimer du médicament :', error);
+      setRows((prevRows) => prevRows.filter((row) => row._id !== id));
+    } catch (error) {
+      console.error('Une erreur s\'est produite lors de la suppression du médicament :', error);
     }
-  }
+  };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = (id) => {
     setId(id);
     setIsModalOpen(true);
   };
- 
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
+  const sortedAndFilteredMedicaments = rows.sort((a, b) => {
+    if (sortOption === 'nom') {
+      return a.nom.localeCompare(b.nom);
+    } else if (sortOption === 'quantite') {
+      return a.quantite - b.quantite;
+    } else if (sortOption === 'prix') {
+      return a.prix - b.prix;
+    } else if (sortOption === 'status') {
+      return a.statut.localeCompare(b.statut);
+    }
+    return 0;
+  });
 
   return (
     <div className="admin_dashbord">
@@ -81,13 +94,35 @@ const Stock = () => {
         <NavBarAdmin />
         <main>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h1>Liste des Medicaments</h1>
-            <Button variant="contained" color="primary" onClick={() => navigate("/addmedicament")}style={{ marginBottom: '2%'}}>Add Medicament</Button>
+            <h1>Liste des Médicaments</h1>
+            <div className='right-head'>
+            <div className="sort-options-medica">
+            <label className='medica-label'>Trier par :</label>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className='medica-select'
+            >
+              <option value="nom">Nom</option>
+              <option value="quantite">Quantité</option>
+              <option value="prix">Prix</option>
+              <option value="status">Statut</option>
+            </select>
+          </div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate("/addmedicament")}
+              style={{ marginBottom: '2%' }}
+            >
+              Add Medicament
+            </Button>
+          </div>
           </div>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>
-                <TableRow >
+                <TableRow>
                   <StyledTableCell>ID</StyledTableCell>
                   <StyledTableCell>Nom</StyledTableCell>
                   <StyledTableCell>Prix</StyledTableCell>
@@ -98,8 +133,8 @@ const Stock = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.length > 0 ? (
-                  rows.map((row, index) => (
+                {sortedAndFilteredMedicaments.length > 0 ? (
+                  sortedAndFilteredMedicaments.map((row, index) => (
                     <StyledTableRow key={row._id}>
                       <StyledTableCell component="th" scope="row">
                         {index + 1}
@@ -111,21 +146,36 @@ const Stock = () => {
                       <StyledTableCell>
                         <img src={row.image} alt={row.nom} style={{ width: 50, height: 50 }} />
                       </StyledTableCell>
-                      <StyledTableCell align="center" style={{display:'flex',gap:'5%'}}>
-                        <div style={{display:'flex',gap:'5%'}}>
-                        <Button variant="contained" color="primary" onClick={()=>navigate(`/editmedicament/${row._id}`)}>Edit</Button>
-                        <Button variant="contained" style={{backgroundColor:'#f95454'}} onClick={()=>showModal(row._id)} >Delete</Button>
-                       
-                        <Tooltip title="More details" >
-                        <InfoIcon sx={{ fontSize: 30,cursor: 'pointer' }} color="action"  onClick={()=>navigate(`/detailmedicament/${row._id}`)}/>
-                        </Tooltip>
+                      <StyledTableCell align="center" style={{ display: 'flex', gap: '5%' }}>
+                        <div style={{ display: 'flex', gap: '5%' }}>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => navigate(`/editmedicament/${row._id}`)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="contained"
+                            style={{ backgroundColor: '#f95454' }}
+                            onClick={() => showModal(row._id)}
+                          >
+                            Delete
+                          </Button>
+                          <Tooltip title="More details">
+                            <InfoIcon
+                              sx={{ fontSize: 30, cursor: 'pointer' }}
+                              color="action"
+                              onClick={() => navigate(`/detailmedicament/${row._id}`)}
+                            />
+                          </Tooltip>
                         </div>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))
                 ) : (
                   <StyledTableRow>
-                    <StyledTableCell colSpan={9} align="center">
+                    <StyledTableCell colSpan={7} align="center">
                       Aucun médicament trouvé
                     </StyledTableCell>
                   </StyledTableRow>
@@ -134,18 +184,16 @@ const Stock = () => {
             </Table>
           </TableContainer>
           <Modal
-    title="Delete Confirmation"
-    open={isModalOpen}
-    onOk={() => handledel(id)}
-    okText="Confirm"
-    onCancel={handleCancel}
-  >
-    <p className='alert-msg'>Are you sure to delete the medication?</p>
-  </Modal>
+            title="Delete Confirmation"
+            open={isModalOpen}
+            onOk={() => handledel(id)}
+            okText="Confirm"
+            onCancel={handleCancel}
+          >
+            <p className="alert-msg">Are you sure to delete the medication?</p>
+          </Modal>
         </main>
       </section>
-
-
     </div>
   );
 };
