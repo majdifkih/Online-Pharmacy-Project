@@ -115,7 +115,7 @@ const fetchMedicaments = async () => {
     <Container>
       <ProductsContainer>
         {medicaments.map((medicament) => (
-          <StyledCard key={medicament._id} hoverable cover={<img alt="example" style={{ width: '150px', marginTop: '25px' }} src={medicament.image} />}>
+          <StyledCard key={medicament._id} hoverable cover={<img alt="example" style={{ width: '150px', marginTop: '25px' }} src={`http://localhost:4000/${medicament.image}`} />}>
             <div>
               Nom : <Name> {medicament.nom.toUpperCase()} </Name> <br />
               Prix : <Price> {medicament.prix} DT </Price>

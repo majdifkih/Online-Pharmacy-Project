@@ -295,7 +295,7 @@ const items = token ? AuthItmes : UnAuthitems;
       {cart.map((item) => (
         <div key={item._id}>
           <p>
-           <img src={item.image} style={{width:'60px'}} /><DeleteOutlined  style={{color:'red',position:'absolute',right:'25px',fontSize:'20px'}} onClick={() => removeItemFromCart(item._id)} />
+           <img src={`http://localhost:4000/${item.image}`}  style={{width:'60px'}} /><DeleteOutlined  style={{color:'red',position:'absolute',right:'25px',fontSize:'20px'}} onClick={() => removeItemFromCart(item._id)} />
           </p>
           
         </div>

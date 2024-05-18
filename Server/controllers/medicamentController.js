@@ -41,11 +41,10 @@ module.exports.oneMedicament = async (req, res) => {
   }
 };
 
-
-
 module.exports.addMedicament = async (req, res) => {
   try {
-    const { nom, description, prix, quantite, statut, PersMedicOblig } = req.body;
+    const { nom, description, prix, quantite, statut, PersMedicOblig } =
+      req.body;
     const image = req.file ? req.file.path : null;
 
     const nouveauMedicament = new Medicament({
@@ -73,17 +72,20 @@ module.exports.addMedicament = async (req, res) => {
 module.exports.editMedicament = async (req, res) => {
   try {
     const { id } = req.params;
-<<<<<<< HEAD
-    const { nom, description, prix, quantite,PersMedicOblig  } = req.body;
-    const updateData = { nom, description, prix, quantite, PersMedicOblig };
-=======
-    const { nom, description, prix, quantite,PersMedicOblig } = req.body;
+
+    const { nom, description, prix, quantite, PersMedicOblig } = req.body;
     const image = req.file ? req.file.path : null;
-    const updateData = { nom, description, prix, quantite, PersMedicOblig,image };
-    
-    
->>>>>>> d2ddd48ac9b788f21b17945eaf3a35cadbe84c75
-    const medicament = await Medicament.findByIdAndUpdate(id, updateData, { new: true });
+    const updateData = {
+      nom,
+      description,
+      prix,
+      quantite,
+      PersMedicOblig,
+      image,
+    };
+    const medicament = await Medicament.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
     if (!medicament) {
       return res.status(404).json({ message: "Médicament non trouvé" });
     }
