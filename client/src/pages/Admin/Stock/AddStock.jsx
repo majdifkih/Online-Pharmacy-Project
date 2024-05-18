@@ -31,20 +31,19 @@ const AddStock = () => {
     formData.append('image', image);
   
     try {
-      
       const response = await axios.post('http://localhost:4000/medicament/add', formData);
-      navigate("/medicaments")
-  console.log("Ajout avec succés",response);
+      navigate("/medicaments");
+      console.log("Ajout avec succès", response);
     } catch (error) {
-
       console.error('Une erreur s\'est produite lors de l\'ajout du médicament :', error);
     }
   };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
   };
-  
+
   return (
 
     <div className="admin_dashbord">
@@ -82,9 +81,8 @@ const AddStock = () => {
           <Form.Check type="checkbox" checked={PersMedicOblig} onChange={(e) => setPersMedicOblig(e.target.checked)} />
         </Form.Group>
         <Form.Group>
-             
-              <div style={{ display: 'flex', alignItems: 'center',gap:'3%' }}>
-              <Form.Label>Image</Form.Label>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '3%' }}>
+                <Form.Label>Image</Form.Label>
                 <input type="file" style={{ display: 'none' }} onChange={handleFileChange} />
                 <Button
                   style={{ width: '80%' }}

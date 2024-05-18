@@ -144,7 +144,7 @@ const Stock = () => {
                       <StyledTableCell>{row.quantite}</StyledTableCell>
                       <StyledTableCell>{row.statut}</StyledTableCell>
                       <StyledTableCell>
-                        <img src={row.image} alt={row.nom} style={{ width: 50, height: 50 }} />
+                        <img src={`http://localhost:4000/${row.image}`} alt={row.nom} style={{ width: 50, height: 50 }} />
                       </StyledTableCell>
                       <StyledTableCell align="center" style={{ display: 'flex', gap: '5%' }}>
                         <div style={{ display: 'flex', gap: '5%' }}>

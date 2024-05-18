@@ -33,17 +33,22 @@ const StockDetail = () => {
                          
 
                             
-                <img src={rows.image} alt="loadImage" className='img-detail-medica'/>
                            
                             <h2 className='title-Detailmedica'>{rows.nom}</h2>
                             
                             <fieldset className='info-group'>
                             <legend>Medicament Informations</legend>
+                            <div className='fieldset-content'>
+                            <img src={`http://localhost:4000/${rows.image}`} alt="loadImage" className='img-detail-medica'/>
+
+                                <div>
                             <p className='details-items'><span className='items-contient'>Description :</span> {rows.description}</p>
                             <p className='details-items'><span className='items-contient'>Prix :</span> {rows.prix}</p>
                             <p className='details-items'><span className='items-contient'>Quantite :</span> {rows.quantite}</p>
                             <p className='details-items'><span className='items-contient'>Statut :</span> {rows.statut}</p>
-                            <p className='details-items'><span className='items-contient'>Prescription obligation :</span> {rows.PersMedicOblig}</p>
+                            <p className='details-items'><span className='items-contient'>Prescription obligation :</span> {rows.PersMedicOblig ? 'Oui' : 'Non'}</p>
+                            </div>
+                            </div>
                             </fieldset>
                         
                   

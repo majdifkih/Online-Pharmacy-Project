@@ -8,6 +8,7 @@ const medicament = require("./routes/medicament");
 const commande = require("./routes/commande");
 const panier=require("./routes/panierRoute")
 const cookieParser = require("cookie-parser");
+const path = require('path');
 const cors = require("cors");
 dotenv.config();
 
@@ -17,7 +18,7 @@ const DATABASE_URL = process.env.DATABASE_URL;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads",express.static("uploads"))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 

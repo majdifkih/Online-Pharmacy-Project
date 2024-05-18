@@ -44,8 +44,8 @@ const columns = [
     render: (medicaments) => (
       <>
         {medicaments.map(({ medicId, quantity }) => (
-          <div key={medicId._id}>
-            <b>{medicId.nom} *{quantity} </b>
+          <div key={medicId}>
+            <b>{medicId?.nom} *{quantity} </b>
           </div>
         ))}
       </>
