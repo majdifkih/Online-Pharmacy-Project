@@ -46,10 +46,8 @@ const Login = () => {
                 const token = response.data.token;
                 localStorage.setItem("token", token);
 
-                // Supposons que le token contient le rôle sous forme de payload
-                // Vous devrez adapter ceci selon la structure réelle de votre token
                 const decodedToken = JSON.parse(atob(token.split('.')[1]));
-                const userRole = decodedToken.role; // Assurez-vous que 'role' correspond à la clé dans votre token
+                const userRole = decodedToken.role; 
 
                 if (userRole === 'admin') {
                     navigate("/dash");

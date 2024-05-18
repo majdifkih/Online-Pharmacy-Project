@@ -12,7 +12,6 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
 // GET /medicaments
 router.get("/", medicamentController.listMedicaments);
 
@@ -23,11 +22,10 @@ router.get("/onemedicat/:id", medicamentController.oneMedicament);
 router.get("/search", medicamentController.searchMedic);
 
 // POST /medicaments
-router.post(
-  "/add",
-  upload.any("image"),
-  medicamentController.addMedicament
-);
+const upload = multer({ storage: storage });
+
+// Route pour ajouter un nouveau médicament
+router.post('/add', upload.single('image'), medicamentController.addMedicament);
 
 // PUT /medicaments/:id
 router.put("/edit/:id", upload.single('image'),medicamentController.editMedicament);

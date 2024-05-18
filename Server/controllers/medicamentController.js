@@ -41,51 +41,48 @@ module.exports.oneMedicament = async (req, res) => {
   }
 };
 
-// Fonction pour ajouter un médicament
+
 
 module.exports.addMedicament = async (req, res) => {
   try {
-    const { nom, description, prix, quantite, PersMedicOblig } = req.body;
+    const { nom, description, prix, quantite, statut, PersMedicOblig } = req.body;
+    const image = req.file ? req.file.path : null;
 
-    // Créer une nouvelle instance de Medicament avec les données reçues
     const nouveauMedicament = new Medicament({
       nom,
       description,
       prix,
       quantite,
+      statut,
       PersMedicOblig,
+      image,
     });
-
-    // Vérifiez si une image a été uploadée et mettez à jour le chemin de l'image
-    if (req.file) {
-      nouveauMedicament.image = `http://localhost:4000/${req.file.path}`;
-    }
-
-    // Mettre à jour le statut du médicament en fonction de la quantité
     if (nouveauMedicament.quantite <= 0) {
       nouveauMedicament.statut = "Indisponible";
     } else {
       nouveauMedicament.statut = "Disponible";
     }
 
-    // Enregistrez le médicament dans la base de données
     const medicament = await nouveauMedicament.save();
-
-    // Répondez avec le médicament créé
     res.status(201).json(medicament);
   } catch (error) {
-    // En cas d'erreur, renvoyez un statut d'erreur avec le message d'erreur
     res.status(500).json({ message: error.message });
   }
 };
-
-
 // Fonction pour modifier un médicament
 module.exports.editMedicament = async (req, res) => {
   try {
     const { id } = req.params;
+<<<<<<< HEAD
     const { nom, description, prix, quantite,PersMedicOblig  } = req.body;
     const updateData = { nom, description, prix, quantite, PersMedicOblig };
+=======
+    const { nom, description, prix, quantite,PersMedicOblig } = req.body;
+    const image = req.file ? req.file.path : null;
+    const updateData = { nom, description, prix, quantite, PersMedicOblig,image };
+    
+    
+>>>>>>> d2ddd48ac9b788f21b17945eaf3a35cadbe84c75
     const medicament = await Medicament.findByIdAndUpdate(id, updateData, { new: true });
     if (!medicament) {
       return res.status(404).json({ message: "Médicament non trouvé" });
