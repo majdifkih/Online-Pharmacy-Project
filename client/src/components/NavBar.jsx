@@ -192,7 +192,7 @@ try{
       if (fileList.length > 0 ) {
         formData.append('ordonnance',fileList[0].originFileObj);
       }
-      console.log(medicIds);
+      console.log(formData);
       const response = await axios.post('http://localhost:4000/commande', formData,{
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -294,8 +294,8 @@ const items = token ? AuthItmes : UnAuthitems;
     <>
       {cart.map((item) => (
         <div key={item._id}>
-          <p>
-           <img src={`http://localhost:4000/${item.image}`}  style={{width:'60px'}} /><DeleteOutlined  style={{color:'red',position:'absolute',right:'25px',fontSize:'20px'}} onClick={() => removeItemFromCart(item._id)} />
+          <p style={{display:'flex',marginTop:'15%'}}>
+           <img src={`http://localhost:4000/${item.image}`}  alt='img...' style={{width:'60px'}} /><span style={{fontWeight:'bold',marginLeft:'5%'}}>{item.nom}</span><DeleteOutlined  style={{color:'red',position:'absolute',right:'25px',fontSize:'20px'}} onClick={() => removeItemFromCart(item._id)} />
           </p>
           
         </div>
