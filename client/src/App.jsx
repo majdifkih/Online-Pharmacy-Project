@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Profile from './pages/Profile';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,createContext, useContext, } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import Login from './pages/login';
 import Home from './pages/Home';
@@ -20,8 +20,12 @@ import StockDetail from './pages/Admin/Stock/StockDetail';
 import CommandDetail from './pages/Admin/Command/CommandDetail';
 import UnauthorisedPage from './pages/UnauthorisedPage';
 
+
+const RoleContext = createContext();
+
 function App() {
   const [role, setRole] = useState('');
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -30,9 +34,10 @@ function App() {
       const userRole = decodedToken.role;
       setRole(userRole);
     }
-  }, []);
+  },[]);
 
   return (
+<RoleContext.Provider value={role}>
     <div>
       <Routes>
       <Route exact path="/" element={<Home />} />
@@ -44,7 +49,7 @@ function App() {
                  <Route path='about' element={<AboutUs />} />
                  <Route path='contact' element = {<Contact />} />
                  <Route path="mescommandes" element={role === 'client' ? <UserCommandes />: <p><UnauthorisedPage/></p>} />
-                 <Route path="MedicDetail/:id" element={role === 'admin' ? <MedicamentDetail />: <p><UnauthorisedPage/></p>} />
+                 <Route path="MedicDetail/:id" element={<MedicamentDetail />} />
                  <Route path="dash" element={role === 'admin' ? <Dashboard /> : <p><UnauthorisedPage/></p>} />
                  <Route path="commandes" element={role === 'admin' ? <ListCommande /> : <p><UnauthorisedPage/></p>} />
                  <Route path="medicaments" element={role === 'admin' ?<Stock />: <p><UnauthorisedPage/></p>} />
@@ -54,9 +59,9 @@ function App() {
                  <Route path="detailcommand/:id" element={role === 'admin' ?<CommandDetail />: <p><UnauthorisedPage/></p>} />
         </Route>
       </Routes>
-
       <FloatButton.BackTop />
     </div>
+</ RoleContext.Provider>    
   );
 }
 

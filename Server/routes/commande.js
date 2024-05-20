@@ -1,9 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const commandeController = require("../controllers/commandeController");
-const auth = require("../middleware/authentication");
+const multer = require("multer");
 
-router.post("/commande", commandeController.passerCommande);
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+router.post(
+  "/commande",
+  upload.single("ordonnance"),
+  commandeController.passerCommande
+);
 router.get("/listcommande", commandeController.getAllCommands);
 router.get("/commande/:id", commandeController.getCommandeByUser);
 router.put("/changestatus/:id", commandeController.ChangerStatus);

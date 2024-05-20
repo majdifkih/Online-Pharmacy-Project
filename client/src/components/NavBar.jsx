@@ -187,17 +187,17 @@ try{
       const userId = decodeToken.id;
       const medicIds = cart.map(item => ({ medicId: item._id, quantity: quantities[item._id] || 1 }));
       const formData = new FormData();
-      formData.append('userId',userId);
-      formData.append('medicaments', JSON.stringify(medicIds));
-      if (fileList.length > 0 ) {
-        formData.append('ordonnance',fileList[0].originFileObj);
+      formData.append("userId",userId);
+      formData.append("medicaments",JSON.stringify(medicIds))
+      if (fileList.length > 0) {
+      formData.append("ordonnance", fileList[0].originFileObj);
       }
-      console.log(formData);
-      const response = await axios.post('http://localhost:4000/commande', formData,{
+      const response = await axios.post('http://localhost:4000/commande',formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+            'Content-Type': 'multipart/form-data',
         },});
       (response.status ===200)?commandeMsg():console.log("can't pass command");
+      console.log(fileList);
     }catch (err){
       console.log(err.message);
     }
