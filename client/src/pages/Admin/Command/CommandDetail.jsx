@@ -37,7 +37,7 @@ const CommandDetail = () => {
                                 <p className='details-items'><span className='items-contient'>Médicaments :</span>  <ul>
                                     {commande.medicaments.map((medicament, index) => (
                                         <li key={index}>
-                                            {medicament.medicId?.nom} , {medicament?.quantity}
+                                            {medicament.medicId?.nom} * {medicament?.quantity}
                                         </li>
                                     ))}
                                 </ul></p>

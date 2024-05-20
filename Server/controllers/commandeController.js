@@ -98,7 +98,7 @@ module.exports.ChangerStatus = async (req, res) => {
       { _id: id },
       { status: status },
       { new: true }
-    ).populate("userId");
+    ).populate("userId").populate("medicaments.medicId", "nom");
 
     if (userCommande) {
       const userEmail = userCommande.userId.email;
