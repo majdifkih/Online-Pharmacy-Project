@@ -1,6 +1,7 @@
 const Commande = require("../models/commande");
 const Medicament = require("../models/medicament");
 const nodeMailer = require("nodemailer");
+const moment = require("moment");
 require("dotenv").config();
 const email = process.env.EMAIL;
 const password = process.env.PASSWORD;
@@ -102,7 +103,10 @@ module.exports.ChangerStatus = async (req, res) => {
     if (userCommande) {
       const userEmail = userCommande.userId.email;
       const emailSubject = "Info about your command";
-      const emailText = `Your Command is :  ${status}`;
+      const formattedDate = moment(userCommande.date).format(
+        "MMMM Do YYYY, h:mm:ss a"
+      );
+      const emailText = `Your Command of ${formattedDate} is : ${status}`;
       await sendEmail(userEmail, emailSubject, emailText);
       res.status(200).json(userCommande);
     } else {
