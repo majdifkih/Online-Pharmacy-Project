@@ -1,22 +1,27 @@
 const Commande = require("../models/commande");
 const Medicament = require("../models/medicament");
+const nodeMailer = require("nodemailer");
+const moment = require("moment");
+require("dotenv").config();
+const email = process.env.EMAIL;
+const password = process.env.PASSWORD;
 
 module.exports.passerCommande = async (req, res) => {
   try {
     const { userId, medicaments } = req.body;
+    const image = req.file ? req.file.path : null;
+    const medicamentsArray = JSON.parse(medicaments);
     let prixTotal = 0;
-    for (const medicament of medicaments) {
+    for (const medicament of medicamentsArray) {
       const { prix } = await Medicament.findById(medicament.medicId);
       prixTotal += medicament.quantity * prix;
     }
     const commande = new Commande({
-      medicaments: medicaments,
+      medicaments: medicamentsArray,
       userId: userId,
       PrixTotal: prixTotal,
+      ordonnance: image,
     });
-    if (req.file) {
-      commande.ordonnance = `http://localhost:4000/${req.file.path}`;
-    }
     const verifCommande = await commande.save();
     verifCommande ? res.status(200).send(verifCommande) : res.send("error");
   } catch (err) {
@@ -67,6 +72,23 @@ module.exports.getOneCommande = async (req, res) => {
   }
 };
 
+const sendEmail = async (to, subject, text) => {
+  let transporter = nodeMailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: email,
+      pass: password,
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: email, // Sender address
+    to: to, // List of receivers
+    subject: subject, // Subject line
+    text: text, // Plain text body
+  });
+};
+
 module.exports.ChangerStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -76,9 +98,16 @@ module.exports.ChangerStatus = async (req, res) => {
       { _id: id },
       { status: status },
       { new: true }
-    );
+    ).populate("userId").populate("medicaments.medicId", "nom");
 
     if (userCommande) {
+      const userEmail = userCommande.userId.email;
+      const emailSubject = "Info about your command";
+      const formattedDate = moment(userCommande.date).format(
+        "MMMM Do YYYY, h:mm:ss a"
+      );
+      const emailText = `Your Command of ${formattedDate} is : ${status}`;
+      await sendEmail(userEmail, emailSubject, emailText);
       res.status(200).json(userCommande);
     } else {
       res.status(404).send("No commandes for this user");

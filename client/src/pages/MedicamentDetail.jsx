@@ -67,7 +67,7 @@ const MedicamentDetail = () => {
     <Container>
         {medicament ? (
             <div style={{ display: 'flex' }}>
-              <ImageContainer> <Image src={medicament.image} /> </ImageContainer>  
+              <ImageContainer> <Image src={`http://localhost:4000/${medicament.image}`}  /> </ImageContainer>  
                 <ContentContainer>
                   <TitleValueContainer> <Title> Nom:  </Title>  <Value> {medicament.nom} </Value>  </TitleValueContainer>  
                    <TitleValueContainer> <Title> Prix: </Title> <Value> {medicament.prix} DT </Value> </TitleValueContainer> 

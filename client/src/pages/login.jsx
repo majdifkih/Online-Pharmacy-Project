@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Form, Input, message } from 'antd';
 import styled from 'styled-components';
@@ -45,14 +45,14 @@ const Login = () => {
             if (response.status === 200) {
                 const token = response.data.token;
                 localStorage.setItem("token", token);
-
                 const decodedToken = JSON.parse(atob(token.split('.')[1]));
                 const userRole = decodedToken.role; 
-
                 if (userRole === 'admin') {
                     navigate("/dash");
+                    window.location.reload();
                 } else if (userRole === 'client') {
                     navigate("/");
+                    window.location.reload();
                 }
             } else {
                 navigate('/login');
@@ -67,7 +67,6 @@ const Login = () => {
             }
         }
     };
-
     return (
         <div>
             <Header />
