@@ -4,7 +4,7 @@ exports.panier = async (req, res) => {
   try {
     const iduser = req.body.iduser;
     const idmedic = req.body.idmedicamnt;
-    const isExist = await User.findOne({ panier: req.body.idmedicamnt });
+    const isExist = await User.findOne({ _id:iduser,panier: req.body.idmedicamnt });
     if (isExist) {
       return res.json("Exists");
     } else if (!isExist) {
