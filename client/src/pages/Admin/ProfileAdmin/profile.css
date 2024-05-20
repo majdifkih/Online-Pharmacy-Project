@@ -1,0 +1,141 @@
+
+
+/* profileDetail */
+
+.info-group-compte {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce */
+    padding: 15px;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.5s ease; /* Ajoute une animation de fondu lors de l'apparition */
+  }
+  
+  .info-group-compte legend {
+    font-weight: bold;
+  }
+  .password-icon {
+    position: absolute;
+    right: 22%;
+    margin-top: 2%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background-color: white;
+    border: none;
+    color: #6b6767;
+  }
+  
+
+  
+  /* Animation de fondu vers le haut */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  
+  legend {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .details-items-info{
+    margin: 5px 0;
+    display: flex;
+    gap: 2%;
+    padding: 2%;
+    font-size: 1em;
+    font-weight: bold;
+  }
+  .items-contient-info{
+    
+    color: #7e7777;
+  }
+  
+
+  
+  .category-item {
+    margin-bottom: 5px;
+    padding: 5px;
+    margin-left: 15%;
+    
+  }
+  
+  .category-name {
+    font-weight: bold;
+    color: rgb(117, 117, 117);
+  }
+  
+
+/* Styles Profle edit */
+.tab-content {
+    
+    width: 95%;
+    
+    border: 0.6px solid rgb(248, 242, 242);
+    margin-top: 3%;
+    border-radius: 4px;
+   
+}
+
+.title-param {
+    color: #3C91E6;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+
+}
+
+
+
+/* Styles pour les onglets */
+.tab-label {
+    color: gray;
+    font-size: 100%;
+    transition: color 0.3s, font-size 0.3s;
+    height: 40px; /* Hauteur fixe pour les cases de labels */
+    display: flex;
+    align-items: center;
+}
+
+.tab-label.active {
+    color: #9467b1;
+    font-size: 120%;
+    transition: color 0.3s, font-size 0.3s, transform 0.2s ease-in-out;
+}
+
+.tab-label.active:hover {
+    transform: scale(1.1);
+}
+
+
+/* Styles pour les tabpanes */
+.tab-pane-content {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: white;
+    animation: fade-in 0.5s;
+    
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+  
+  

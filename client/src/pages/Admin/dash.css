@@ -455,14 +455,14 @@ a {
 	border-radius: 20px;
 	font-weight: 700;
 }
-#content main .table-data .order table tr td .status.completed {
-	background: var(--blue);
+#content main .table-data .order table tr td .status.rejected {
+	background: #f95454;
 }
-#content main .table-data .order table tr td .status.process {
-	background: var(--yellow);
+#content main .table-data .order table tr td .status.accepted {
+	background: rgb(75, 224, 75);
 }
 #content main .table-data .order table tr td .status.pending {
-	background: var(--orange);
+	background: rgb(233, 177, 72);
 }
 
 

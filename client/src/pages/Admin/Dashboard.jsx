@@ -1,103 +1,134 @@
-import "./dash.css"
+import "./dash.css";
 import { UnorderedListOutlined } from '@ant-design/icons';
 import PeopleIcon from '@mui/icons-material/People';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import SideBar from "../../components/Admin/SideBar";
 import NavBarAdmin from "../../components/Admin/NavBarAdmin";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
 const Dashboard = () => {
- 
-  return (
-    <div className="admin_dashbord">
-	<SideBar/>
-	<section id="content">
-		<NavBarAdmin/>
-		
-		<main>
-			<div class="head-title">
-				<div class="left">
-					<h1>Dashboard</h1>
-				</div>
-			</div>
+    const [rows, setRows] = useState([]);
+    const [nbrcommand, setNbrcommand] = useState(0);
+	const [nbrUsers, setNbrUsers] = useState(0);
+	const [totalPrice, setTotalPrice] = useState(0);
+    const listCommandes = async () => {
+        try {
+            const response = await axios.get('http://localhost:4000/listcommande');
+            setRows(response.data);
+            setNbrcommand(response.data.length);
+			let total = 0;
+            response.data.forEach(commande => {
+                total += commande.PrixTotal;
+            });
+            setTotalPrice(total);
+        } catch (error) {
+            console.error('There was an error fetching the data!', error);
+        }
+    };
+	const listUsers = async () => {
+        try {
+            const responseuser = await axios.get('http://localhost:4000/auth/users');
+         
+            setNbrUsers(responseuser.data.length);
+        } catch (error) {
+            console.error('There was an error fetching the data!', error);
+        }
+    };
+    useEffect(() => {
+        listCommandes();
+		listUsers();
+    }, []);
 
-			<ul class="box-info">
-				<li>
-					<i class='bx bxs-calendar-check' ><UnorderedListOutlined /></i>
-					<span class="text">
-						<h3>1020</h3>
-						<p>Order</p>
-					</span>
-				</li>
-				<li>
-					<i class='bx bxs-group' ><PeopleIcon fontSize="large"/></i>
-					<span class="text">
-						<h3>2834</h3>
-						<p>Clients</p>
-					</span>
-				</li>
-				<li>
-					<i class='bx bxs-dollar-circle' ><AttachMoneyIcon fontSize="large"/></i>
-					<span class="text">
-						<h3>$2543</h3>
-						<p>Total Sales</p>
-					</span>
-				</li>
-			</ul>
+    return (
+        <div className="admin_dashbord">
+            <SideBar />
+            <section id="content">
+                <NavBarAdmin />
 
+                <main>
+                    <div className="head-title">
+                        <div className="left">
+                            <h1>Dashboard</h1>
+                        </div>
+                    </div>
 
-			<div class="table-data">
-				<div class="order">
-					<div class="head">
-						<h3>Recent Orders</h3>
-						<i class='bx bx-search' ><UnorderedListOutlined /></i>
-						<i class='bx bx-filter' ></i>
-					</div>
-					<table>
-						<thead>
-							<tr>
-								<th>User</th>
-								<th>Date Order</th>
-								<th>Status</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									<img src="img/people.png" />
-									<p>John Doe</p>
-								</td>
-								<td>01-10-2021</td>
-								<td><span class="status completed">Completed</span></td>
-							</tr>
-							
-						</tbody>
-					</table>
-				</div>
-				<div class="todo">
-					<div class="head">
-						<h3>Todos</h3>
-						<i class='bx bx-plus' ></i>
-						<i class='bx bx-filter' ></i>
-					</div>
-					<ul class="todo-list">
-						<li class="completed">
-							<p>Todo List</p>
-							<i class='bx bx-dots-vertical-rounded' ></i>
-						</li>
-						
-						<li class="not-completed">
-							<p>Todo List</p>
-							<i class='bx bx-dots-vertical-rounded' ></i>
-						</li>
-						
-					</ul>
-				</div>
-			</div>
-		</main>
-		
-	</section>
+                    <ul className="box-info">
+                        <li>
+                            <i className='bx bxs-calendar-check'><UnorderedListOutlined /></i>
+                            <span className="text">
+                                <h3>{nbrcommand}</h3>
+                                <p>Order</p>
+                            </span>
+                        </li>
+                        <li>
+                            <i className='bx bxs-group'><PeopleIcon fontSize="large" /></i>
+                            <span className="text">
+                                <h3>{nbrUsers}</h3>
+                                <p>Clients</p>
+                            </span>
+                        </li>
+                        <li>
+                            <i className='bx bxs-dollar-circle'><AttachMoneyIcon fontSize="large" /></i>
+                            <span className="text">
+                                <h3>${totalPrice}</h3>
+                                <p>Total Sales</p>
+                            </span>
+                        </li>
+                    </ul>
 
-    </div>
-  );
+                    <div className="table-data">
+                        <div className="order">
+                            <div className="head">
+                                <h3>Recent Orders</h3>
+                                <Link to="/commandes"><i className='bx bx-search'><UnorderedListOutlined /></i></Link>
+                                <i className='bx bx-filter'></i>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Date Order</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {rows.map((row, index) => (
+                                        <tr key={index}>
+                                            <td>
+                                                
+                                                <p>{row.userId.username}</p>
+                                            </td>
+                                            <td>{new Date(row.date).toLocaleDateString()}</td>
+                                            <td><span className={`status ${row.status.toLowerCase()}`}>{row.status}</span></td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="todo">
+                            <div className="head">
+                                <h3>Todos</h3>
+                                <i className='bx bx-plus'></i>
+                                <i className='bx bx-filter'></i>
+                            </div>
+                            <ul className="todo-list">
+                                <li className="completed">
+                                    <p>Todo List</p>
+                                    <i className='bx bx-dots-vertical-rounded'></i>
+                                </li>
+                                <li className="not-completed">
+                                    <p>Todo List</p>
+                                    <i className='bx bx-dots-vertical-rounded'></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </main>
+            </section>
+        </div>
+    );
 };
 
 export default Dashboard;

@@ -54,3 +54,12 @@ exports.logoutUser = async (req, res) => {
     console.log(err.message);
   }
 };
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    return res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
