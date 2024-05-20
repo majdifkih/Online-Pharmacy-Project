@@ -1,5 +1,9 @@
 const Commande = require("../models/commande");
 const Medicament = require("../models/medicament");
+const nodeMailer = require("nodemailer");
+require("dotenv").config();
+const email = process.env.EMAIL;
+const password = process.env.PASSWORD;
 
 module.exports.passerCommande = async (req, res) => {
   try {
@@ -67,6 +71,23 @@ module.exports.getOneCommande = async (req, res) => {
   }
 };
 
+const sendEmail = async (to, subject, text) => {
+  let transporter = nodeMailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: email,
+      pass: password,
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: email, // Sender address
+    to: to, // List of receivers
+    subject: subject, // Subject line
+    text: text, // Plain text body
+  });
+};
+
 module.exports.ChangerStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -76,9 +97,13 @@ module.exports.ChangerStatus = async (req, res) => {
       { _id: id },
       { status: status },
       { new: true }
-    );
+    ).populate("userId");
 
     if (userCommande) {
+      const userEmail = userCommande.userId.email;
+      const emailSubject = "Info about your command";
+      const emailText = `Your Command is :  ${status}`;
+      await sendEmail(userEmail, emailSubject, emailText);
       res.status(200).json(userCommande);
     } else {
       res.status(404).send("No commandes for this user");
