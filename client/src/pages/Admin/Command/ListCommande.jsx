@@ -16,6 +16,7 @@ import Tooltip from '@mui/material/Tooltip';
 import SideBar from '../../../components/Admin/SideBar';
 import NavBarAdmin from '../../../components/Admin/NavBarAdmin';
 import { useNavigate } from 'react-router-dom';
+import { EyeOutlined } from '@ant-design/icons';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -72,6 +73,15 @@ const ListCommande = () => {
     }
   };
 
+  const downloadFile = (url) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', true);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const sortedAndFilteredCommandes = rows.sort((a, b) => {
     if (sortOption === "client") {
       return a.userId.username.localeCompare(b.userId.username);
@@ -113,6 +123,7 @@ const ListCommande = () => {
                   <StyledTableCell>Client</StyledTableCell>
                   <StyledTableCell>Prix Total</StyledTableCell>
                   <StyledTableCell>Date</StyledTableCell>
+                  <StyledTableCell align='center'>Ordonnance</StyledTableCell>
                   <StyledTableCell align='center'>Statut</StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -124,8 +135,13 @@ const ListCommande = () => {
                         {index + 1}
                       </StyledTableCell>
                       <StyledTableCell>{row.userId.username}</StyledTableCell>
-                      <StyledTableCell>{row.PrixTotal}</StyledTableCell>
+                      <StyledTableCell>{row.PrixTotal} DT</StyledTableCell>
                       <StyledTableCell>{new Date(row.date).toLocaleDateString()}</StyledTableCell>
+                      <StyledTableCell align='center'>
+                      {row.ordonnance ?(
+                      <EyeOutlined onClick={() => downloadFile(`http://localhost:4000/${row.ordonnance}`)}  />
+                      ):<span> Pas d'ordonnace </span>}
+                      </StyledTableCell>
                       <StyledTableCell align='right' style={{ display: 'flex', gap: '7%' }}>
                         <Tooltip title="More details">
                           <InfoIcon sx={{ fontSize: 30, cursor: 'pointer' }} color="action" onClick={() => navigate(`/detailcommand/${row._id}`)} />
