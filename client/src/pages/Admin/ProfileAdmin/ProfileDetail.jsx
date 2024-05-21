@@ -33,6 +33,9 @@ const ProfileDetail = () => {
         }
     };
 
+    useEffect(() => {
+        userInfo();
+      }, []);
     const deleteAccount = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -74,6 +77,7 @@ const ProfileDetail = () => {
                 )}
                 {role !== 'admin' ? <Button onClick={showModal} style={{ float: 'right' }} type="primary" danger>Delete Account</Button> : null}
             </fieldset>
+   
             <Modal
                 title="Delete Confirmation"
                 open={isModalOpen}

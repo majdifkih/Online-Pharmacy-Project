@@ -33,7 +33,8 @@ const Dashboard = () => {
 	const listUsers = async () => {
         try {
             const responseuser = await axios.get('http://localhost:4000/auth/users');
-            setNbrUsers(responseuser.data.length);
+            const nonAdminUsers = responseuser.data.filter(user => user.role !== "admin");
+            setNbrUsers(nonAdminUsers.length);
         } catch (error) {
             console.error('There was an error fetching the data!', error);
         }
