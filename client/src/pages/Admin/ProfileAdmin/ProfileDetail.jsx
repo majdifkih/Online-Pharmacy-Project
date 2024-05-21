@@ -7,14 +7,7 @@ const ProfileDetail = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [id, setId] = useState('');
     const [role, setRole] = useState(null);
-    const [userData, setUserData] = useState({
-        username: '',
-        email: '',
-        adresse: '',
-        telephone: '',
-        ancienPassword: '',
-        newPassword: '',
-    });
+    const [userData, setUserData] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -24,6 +17,7 @@ const ProfileDetail = () => {
             setRole(userRole);
         }
     }, []);
+
     const userInfo = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -35,17 +29,15 @@ const ProfileDetail = () => {
             const userId = decodedToken.id;
             const response = await axios.get(`http://localhost:4000/profil/${userId}`);
             const infoUser = response.data;
-            setUserData({
-                ...userData,
-                username: infoUser.username,
-                email: infoUser.email,
-                adresse: infoUser.adresse,
-                telephone: infoUser.telephone,
-            });
+                setUserData(infoUser);
         } catch (err) {
             console.log(err.message);
         }
     };
+
+    useEffect(() => {
+        userInfo();
+      }, []);
     const deleteAccount = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -63,7 +55,6 @@ const ProfileDetail = () => {
     
     }
     const showModal = () => {
-        
         setIsModalOpen(true);
       };
     
@@ -71,35 +62,31 @@ const ProfileDetail = () => {
         setIsModalOpen(false);
       };
 
-    useEffect(() => {
-        userInfo();
-      }, []);
+  
 
     if (!userData) {
         return <div>Loading...</div>;
     }
-
     return (
+       
         <div >
-             
+    
+
             <fieldset className="info-group-compte">
-               
-                <legend>Informations Admin</legend>
-                <p className='details-items-info'><span className='items-contient-info'>UserName :</span> {userData.username}</p>
-                <p className='details-items-info'><span className='items-contient-info'>Address Mail :</span>{userData.email} </p>
-                <p className='details-items-info'><span className='items-contient-info'>Address :</span>{userData.adresse} </p>
-                <p className='details-items-info'><span className='items-contient-info'>Phone Number:</span>{userData.telephone} </p>
-                
+                <legend>User Informations</legend>
+                <p className='details-items-info'><span className='items-contient-info'> Username : </span> </p>
+                <p className='details-items-info'><span className='items-contient-info'>Email :</span> </p>
+                <p className='details-items-info'><span className='items-contient-info'>Address :</span></p>                
                 {role !== 'admin' ? <Button onClick={()=>showModal()} style={{float:'right'}} type="primary" danger>Delete Account</Button> : null}
             </fieldset>
+   
             <Modal
             title="Delete Confirmation"
             open={isModalOpen}
             onOk={() => deleteAccount(id)}
             okText="Confirm"
             okType="danger"
-            onCancel={handleCancel}
-          >
+            onCancel={handleCancel}>
             <p className="alert-msg">Are you sure to delete Account?</p>
           </Modal>
         </div>
