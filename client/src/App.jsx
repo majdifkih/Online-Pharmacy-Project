@@ -58,7 +58,7 @@ function App() {
                  <Route path="editmedicament/:id" element={role === 'admin' ?<EditStock />: <p><UnauthorisedPage/></p>} />
                  <Route path="detailmedicament/:id" element={role === 'admin' ?<StockDetail />: <p><UnauthorisedPage/></p>} />
                  <Route path="detailcommand/:id" element={role === 'admin' ?<CommandDetail />: <p><UnauthorisedPage/></p>} />
-                 <Route path="profileadmin" element={role === 'admin' ?<ProfileAdmin />: <p><UnauthorisedPage/></p>} />
+                 <Route path="profileadmin" element={<ProfileAdmin />} />
         </Route>
       </Routes>
       <FloatButton.BackTop />

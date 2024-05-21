@@ -1,4 +1,5 @@
 const User = require("../models/user"); 
+const Commande = require("../models/commande");
 // Afficher toutes les informations de l'utilisateur
 exports.displayUserInfo = async (req, res) => {
     try {
@@ -47,12 +48,16 @@ exports.deleteAccount = async (req, res) => {
     try {
         const { userId } = req.params; // Récupère l'ID de l'utilisateur depuis les paramètres de la requête
         console.log(userId);
+
+        // Supprime toutes les commandes associées à l'utilisateur
+        await Commande.deleteMany({ userId });
+
         // Trouve l'utilisateur par son ID et le supprime
         await User.findByIdAndDelete(userId);
 
-        res.status(200).json({ message: "Compte supprimé avec succès" });
+        res.status(200).json({ message: "Compte et commandes supprimés avec succès" });
     } catch (error) {
-        res.status(500).json({ error: "Échec de la suppression du compte" });
+        res.status(500).json({ error: "Échec de la suppression du compte et des commandes" });
     }
 };
 

@@ -84,7 +84,7 @@ const ListCommande = () => {
 
   const sortedAndFilteredCommandes = rows.sort((a, b) => {
     if (sortOption === "client") {
-      return a.userId.username.localeCompare(b.userId.username);
+      return a.userId?.username.localeCompare(b.userId?.username);
     } else if (sortOption === "date") {
       return new Date(a.date) - new Date(b.date);
     } else if (sortOption === "prix") {
@@ -134,7 +134,7 @@ const ListCommande = () => {
                       <StyledTableCell component="th" scope="row">
                         {index + 1}
                       </StyledTableCell>
-                      <StyledTableCell>{row.userId.username}</StyledTableCell>
+                      <StyledTableCell>{row.userId?.username}</StyledTableCell>
                       <StyledTableCell>{row.PrixTotal} DT</StyledTableCell>
                       <StyledTableCell>{new Date(row.date).toLocaleDateString()}</StyledTableCell>
                       <StyledTableCell align='center'>
