@@ -16,7 +16,9 @@ const Dashboard = () => {
     const listCommandes = async () => {
         try {
             const response = await axios.get('http://localhost:4000/listcommande');
-            setRows(response.data);
+			const today = new Date().toISOString().slice(0, 10); 
+            const filteredCommands = response.data.filter(commande => commande.date.slice(0, 10) === today);
+            setRows(filteredCommands);
             setNbrcommand(response.data.length);
 			let total = 0;
             response.data.forEach(commande => {
@@ -98,7 +100,7 @@ const Dashboard = () => {
                                         <tr key={index}>
                                             <td>
                                                 
-                                                <p>{row.userId.username}</p>
+                                                <p>{row.userId?.username}</p>
                                             </td>
                                             <td>{new Date(row.date).toLocaleDateString()}</td>
                                             <td><span className={`status ${row.status.toLowerCase()}`}>{row.status}</span></td>

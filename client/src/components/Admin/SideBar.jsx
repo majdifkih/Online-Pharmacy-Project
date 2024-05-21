@@ -41,7 +41,7 @@ const SideBar = () => {
 		</ul>
 		<ul class="side-menu">
 			<li class="side-li">
-				<Link to="/profiladmin" className='side-link'>
+				<Link to="/profileadmin" className='side-link'>
 					<i class='bx bxs-cog' ><SettingOutlined /></i>
 					<span class="text">Profil</span>
 				</Link>

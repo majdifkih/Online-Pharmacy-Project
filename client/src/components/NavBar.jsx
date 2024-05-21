@@ -196,7 +196,16 @@ try{
         headers: {
             'Content-Type': 'multipart/form-data',
         },});
-      (response.status ===200)?commandeMsg():console.log("can't pass command");
+        if (response.status === 200) {
+          const response = await axios.delete(`http://localhost:4000/panier/deleteAllItems`, {
+            data: { userId }
+          });
+          commandeMsg();
+          setCartItems([]);
+        } else {
+          console.log("can't pass command");
+        }
+      
       console.log(fileList);
     }catch (err){
       console.log(err.message);

@@ -1,21 +1,47 @@
-import React from 'react';
+import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
+import React, { useEffect, useState } from 'react';
 
 const ProfileDetail = () => {
+    const [userinfo, setUserinfo] = useState(null);
+
+    const userInfo = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("No token found");
+                return;
+            }
+            const decodedToken = jwtDecode(token);
+            const userId = decodedToken.id;
+            const response = await axios.get(`http://localhost:4000/profil/${userId}`);
+            setUserinfo(response.data);
+            console.log(response.data);
+        } catch (err) {
+            console.log(err.message);
+        }
+    };
+
+    useEffect(() => {
+        userInfo();
+      }, []);
+
+    if (!userinfo) {
+        return <div>Loading...</div>;
+    }
+
     return (
-        <div >
-        <fieldset className="info-group-compte">
-       <legend>Statistiques Globales</legend>
-        
-   
-         <p className='details-items-info'><span className='items-contient-info'>Nombre total d'individus masculins :</span> </p>
-         <p className='details-items-info'><span className='items-contient-info'>Nombre total d'individus féminins :</span> </p>
-         <p className='details-items-info'><span className='items-contient-info'>Nombre total d'hommes inscrits :</span> </p>
-         <p className='details-items-info'><span className='items-contient-info'>Nombre total d'hommes non inscrits :</span> </p>
-         <p className='details-items-info'><span className='items-contient-info'>Nombre total de femmes inscrites :</span> </p>
-         <p className='details-items-info'><span className='items-contient-info'>Nombre total de femmes non inscrites :</span> </p>
-   
-         </fieldset>
-         </div>
+        <div>
+             
+            <fieldset className="info-group-compte">
+               
+                <legend>Informations Admin</legend>
+                <p className='details-items-info'><span className='items-contient-info'>UserName :</span> {userinfo.username}</p>
+                <p className='details-items-info'><span className='items-contient-info'>Address Mail :</span>{userinfo.email} </p>
+                <p className='details-items-info'><span className='items-contient-info'>Address :</span>{userinfo.adresse} </p>
+                <p className='details-items-info'><span className='items-contient-info'>Phone Number:</span>{userinfo.telephone} </p>
+            </fieldset>
+        </div>
     );
 };
 

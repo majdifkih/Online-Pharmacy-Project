@@ -117,3 +117,19 @@ module.exports.ChangerStatus = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
+
+module.exports.deleteCommande = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const commande = await Commande.findByIdAndDelete(id);
+    if (commande) {
+      res.status(200).json({ message: "Commande supprimée avec succès" });
+    } else {
+      res.status(404).json({ message: "Commande non trouvée" });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Erreur serveur lors de la suppression de la commande");
+  }
+};

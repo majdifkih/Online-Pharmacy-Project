@@ -54,3 +54,19 @@ exports.deleteItemFromPanier = async (req, res) => {
     res.status(400).json("Failed to remove medication from panier");
   }
 };
+
+module.exports.deleteAllItems = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+    user.panier = [];
+    await user.save();
+    res.status(200).json({ message: "Tous les éléments du panier ont été supprimés avec succès" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Erreur serveur");
+  }
+};
