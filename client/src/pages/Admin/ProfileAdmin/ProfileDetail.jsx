@@ -54,11 +54,8 @@ const ProfileDetail = () => {
             setId(userId);
             const response = await axios.delete(`http://localhost:4000/delprofil/${userId}`);
             if (response.status === 200) {
-
                 localStorage.removeItem("token");
                 window.location.href = "/login";
-
-
             }
         } catch (err) {
             console.log(err.message);
