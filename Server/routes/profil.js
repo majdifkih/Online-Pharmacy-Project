@@ -11,4 +11,5 @@ router.put('/editprofil/:userId',profilcontroller.updateAccount);
 // Delete user
 router.delete('/delprofil/:userId',profilcontroller.deleteAccount);
 
+router.post('/verifyPassword', profilcontroller.verifyPassword);
 module.exports = router;

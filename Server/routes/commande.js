@@ -22,4 +22,5 @@ router.get("/listcommande", commandeController.getAllCommands);
 router.get("/commande/:id", commandeController.getCommandeByUser);
 router.put("/changestatus/:id", commandeController.ChangerStatus);
 router.get("/onecommandinfo/:id", commandeController.ChangerStatus);
+router.delete("/delcommande/:id", commandeController.deleteCommande);
 module.exports = router;

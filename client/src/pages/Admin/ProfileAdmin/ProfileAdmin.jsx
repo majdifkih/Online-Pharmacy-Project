@@ -33,25 +33,25 @@ const ProfileAdmin = () => {
                     <Tabs.TabPane
                         tab={
                             <span className={`tab-label ${activeTab === "0" ? "active" : ""}`}>
-                                <ManageAccountsIcon/> Configuration du compte
+                               <InfoIcon/> Informations du compte
                             </span>
                         }
                         key="0"
                     >
                         <div className="tab-pane-content">
-                            <ProfileEdit />
+                            <ProfileDetail />
                         </div>
                     </Tabs.TabPane>
                     <Tabs.TabPane
                         tab={
                             <span className={`tab-label ${activeTab === "1" ? "active" : ""}`}>
-                               <InfoIcon/> Informations du compte
+                               <ManageAccountsIcon/> Configuration du compte
                             </span>
                         }
                         key="1"
                     >
                         <div className="tab-pane-content">
-                            <ProfileDetail />
+                            <ProfileEdit />
                         </div>
                     </Tabs.TabPane>
                 </Tabs>

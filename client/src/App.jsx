@@ -19,6 +19,7 @@ import UserCommandes from './pages/UserCommandes';
 import StockDetail from './pages/Admin/Stock/StockDetail';
 import CommandDetail from './pages/Admin/Command/CommandDetail';
 import UnauthorisedPage from './pages/UnauthorisedPage';
+import ProfileAdmin from './pages/Admin/ProfileAdmin/ProfileAdmin';
 
 
 const RoleContext = createContext();
@@ -57,6 +58,7 @@ function App() {
                  <Route path="editmedicament/:id" element={role === 'admin' ?<EditStock />: <p><UnauthorisedPage/></p>} />
                  <Route path="detailmedicament/:id" element={role === 'admin' ?<StockDetail />: <p><UnauthorisedPage/></p>} />
                  <Route path="detailcommand/:id" element={role === 'admin' ?<CommandDetail />: <p><UnauthorisedPage/></p>} />
+                 <Route path="profileadmin" element={role === 'admin' ?<ProfileAdmin />: <p><UnauthorisedPage/></p>} />
         </Route>
       </Routes>
       <FloatButton.BackTop />
