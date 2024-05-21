@@ -55,3 +55,26 @@ exports.deleteAccount = async (req, res) => {
         res.status(500).json({ error: "Échec de la suppression du compte" });
     }
 };
+
+
+
+// Controller function
+module.exports.verifyPassword = async (req, res) => {
+    try {
+        const { userId, password } = req.body;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ isValid: false, message: 'User not found' });
+        }
+        const isMatch = await user.comparePassword(password); // assuming comparePassword is a method in your user model
+        if (isMatch) {
+            return res.status(200).json({ isValid: true });
+        } else {
+            return res.status(400).json({ isValid: false, message: 'Password incorrect' });
+        }
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server error");
+    }
+};
+

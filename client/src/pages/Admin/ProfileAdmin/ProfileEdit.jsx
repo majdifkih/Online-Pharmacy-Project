@@ -30,13 +30,14 @@ const ProfileEdit = () => {
             const decodedToken = jwtDecode(token);
             const userId = decodedToken.id;
             const response = await axios.get(`http://localhost:4000/profil/${userId}`);
-            setUserData((prevUserData) => ({
-                ...prevUserData,
-                username: response.data.username,
-                email: response.data.email,
-                adresse: response.data.adresse,
-                telephone: response.data.telephone,
-            }));
+            const infoUser = response.data;
+            setUserData({
+                ...userData,
+                username: infoUser.username,
+                email: infoUser.email,
+                adresse: infoUser.adresse,
+                telephone: infoUser.telephone,
+            });
         } catch (err) {
             console.log(err.message);
         }
@@ -60,8 +61,25 @@ const ProfileEdit = () => {
             const decodedToken = jwtDecode(token);
             const userId = decodedToken.id;
 
-            await axios.put(`http://localhost:4000/editprofil/${userId}`, userData);
-            message.success('Profil mis à jour avec succès!');
+            const response = await axios.post('http://localhost:4000/verifyPassword', {
+                userId,
+                password: userData.ancienPassword,
+            });
+
+            if (response.data.isValid) {
+                const updatedUserData = {
+                    username: userData.username,
+                    email: userData.email,
+                    adresse: userData.adresse,
+                    telephone: userData.telephone,
+                    password: userData.newPassword || undefined,
+                };
+
+                await axios.put(`http://localhost:4000/editprofil/${userId}`, updatedUserData);
+                message.success('Profil mis à jour avec succès!');
+            } else {
+                message.error('Ancien mot de passe incorrect.');
+            }
         } catch (err) {
             console.error(err.message);
             message.error('Erreur lors de la mise à jour du profil.');
@@ -84,7 +102,7 @@ const ProfileEdit = () => {
                         onChange={handleChange}
                     />
                 </InputGroup>
-                <Form.Label htmlFor="inputPassword5" style={{ marginTop: "5%" }}>Ancien password</Form.Label>
+                <Form.Label htmlFor="ancienPassword" style={{ marginTop: "5%" }}>Ancien password</Form.Label>
                 <InputGroup>
                     <Form.Control
                         type={showAncienPassword ? "text" : "password"}
@@ -100,7 +118,7 @@ const ProfileEdit = () => {
                         <FontAwesomeIcon icon={showAncienPassword ? faEyeSlash : faEye} />
                     </InputGroup.Text>
                 </InputGroup>
-                <Form.Label htmlFor="inputPassword5" style={{ marginTop: "5%" }}>New password</Form.Label>
+                <Form.Label htmlFor="newPassword" style={{ marginTop: "5%" }}>New password</Form.Label>
                 <InputGroup>
                     <Form.Control
                         type={showPassword ? "text" : "password"}
@@ -126,7 +144,7 @@ const ProfileEdit = () => {
                         onChange={handleChange}
                     />
                 </InputGroup>
-                <Form.Label htmlFor="phone">Phone Number</Form.Label>
+                <Form.Label htmlFor="telephone">Phone Number</Form.Label>
                 <InputGroup>
                     <Form.Control
                         type="number"
@@ -136,7 +154,7 @@ const ProfileEdit = () => {
                         onChange={handleChange}
                     />
                 </InputGroup>
-                <Form.Label htmlFor="address">Address</Form.Label>
+                <Form.Label htmlFor="adresse">Address</Form.Label>
                 <InputGroup>
                     <Form.Control
                         type="text"

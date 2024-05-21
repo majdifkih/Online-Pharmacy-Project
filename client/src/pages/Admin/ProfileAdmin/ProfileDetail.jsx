@@ -3,7 +3,15 @@ import {jwtDecode} from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 
 const ProfileDetail = () => {
-    const [userinfo, setUserinfo] = useState(null);
+    const [userData, setUserData] = useState({
+        username: '',
+        email: '',
+        adresse: '',
+        telephone: '',
+        ancienPassword: '',
+        newPassword: '',
+    });
+
 
     const userInfo = async () => {
         try {
@@ -15,8 +23,14 @@ const ProfileDetail = () => {
             const decodedToken = jwtDecode(token);
             const userId = decodedToken.id;
             const response = await axios.get(`http://localhost:4000/profil/${userId}`);
-            setUserinfo(response.data);
-            console.log(response.data);
+            const infoUser = response.data;
+            setUserData({
+                ...userData,
+                username: infoUser.username,
+                email: infoUser.email,
+                adresse: infoUser.adresse,
+                telephone: infoUser.telephone,
+            });
         } catch (err) {
             console.log(err.message);
         }
@@ -26,7 +40,7 @@ const ProfileDetail = () => {
         userInfo();
       }, []);
 
-    if (!userinfo) {
+    if (!userData) {
         return <div>Loading...</div>;
     }
 
@@ -36,10 +50,10 @@ const ProfileDetail = () => {
             <fieldset className="info-group-compte">
                
                 <legend>Informations Admin</legend>
-                <p className='details-items-info'><span className='items-contient-info'>UserName :</span> {userinfo.username}</p>
-                <p className='details-items-info'><span className='items-contient-info'>Address Mail :</span>{userinfo.email} </p>
-                <p className='details-items-info'><span className='items-contient-info'>Address :</span>{userinfo.adresse} </p>
-                <p className='details-items-info'><span className='items-contient-info'>Phone Number:</span>{userinfo.telephone} </p>
+                <p className='details-items-info'><span className='items-contient-info'>UserName :</span> {userData.username}</p>
+                <p className='details-items-info'><span className='items-contient-info'>Address Mail :</span>{userData.email} </p>
+                <p className='details-items-info'><span className='items-contient-info'>Address :</span>{userData.adresse} </p>
+                <p className='details-items-info'><span className='items-contient-info'>Phone Number:</span>{userData.telephone} </p>
             </fieldset>
         </div>
     );
