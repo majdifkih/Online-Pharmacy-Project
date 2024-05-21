@@ -17,7 +17,7 @@ const ProfileEdit = () => {
         adresse: '',
         telephone: '',
         ancienPassword: '',
-        newPassword: '',
+        newPassword: ''
     });
 
     const userInfo = async () => {
@@ -29,15 +29,16 @@ const ProfileEdit = () => {
             }
             const decodedToken = jwtDecode(token);
             const userId = decodedToken.id;
-            const response = await axios.get(`http://localhost:4000/profil/${userId}`);
-            const infoUser = response.data;
+            const responseprofil = await axios.get(`http://localhost:4000/profil/${userId}`);
             setUserData({
-                ...userData,
-                username: infoUser.username,
-                email: infoUser.email,
-                adresse: infoUser.adresse,
-                telephone: infoUser.telephone,
+                username: responseprofil.data.user.username,
+                email: responseprofil.data.user.email,
+                adresse: responseprofil.data.user.adresse,
+                telephone: responseprofil.data.user.telephone,
+                ancienPassword: '',
+                newPassword: ''
             });
+            console.log(responseprofil.data.user.adresse);
         } catch (err) {
             console.log(err.message);
         }

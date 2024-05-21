@@ -83,6 +83,7 @@ const fetchMedicaments = async () => {
       const decodedToken = jwtDecode(token);
       const userId = (decodedToken.id);
       const response = await axios.post('http://localhost:4000/panier/addpanier', { iduser: userId, idmedicamnt:idmedicament });
+      
       const isExist = response.data
       if (isExist === 'Exists'){
         errorMsg("You have already added this medic")
@@ -91,6 +92,7 @@ const fetchMedicaments = async () => {
     } catch (error) {
       setError(error);
     }
+   
   }
 
   useEffect(() => {
@@ -123,7 +125,8 @@ const fetchMedicaments = async () => {
             <IconsContainer>
               <EyeOutlined style={{ fontSize: '25px', marginRight: '15px' }} onClick={() => handleViewDetails(medicament)} />
               {contextHolder}
-              <ShoppingCartOutlined style={{ fontSize: '25px' }} onClick={() => addToCart(medicament._id)} />
+              <ShoppingCartOutlined style={{ fontSize: '25px' }} onClick={() => addToCart(medicament._id)&&
+    window.location.reload()} />
             </IconsContainer>
           </StyledCard>
         ))}

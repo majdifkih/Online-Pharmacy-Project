@@ -13,6 +13,7 @@ const Dashboard = () => {
     const [nbrcommand, setNbrcommand] = useState(0);
 	const [nbrUsers, setNbrUsers] = useState(0);
 	const [totalPrice, setTotalPrice] = useState(0);
+    const [searchTerm, setSearchTerm] = useState('');
     const listCommandes = async () => {
         try {
             const response = await axios.get('http://localhost:4000/listcommande');
@@ -41,12 +42,16 @@ const Dashboard = () => {
         listCommandes();
 		listUsers();
     }, []);
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+      };
+    
 
     return (
         <div className="admin_dashbord">
             <SideBar />
             <section id="content">
-                <NavBarAdmin />
+                <NavBarAdmin onSearch={handleSearch}/>
 
                 <main>
                     <div className="head-title">

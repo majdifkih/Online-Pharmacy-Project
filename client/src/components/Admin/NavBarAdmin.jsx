@@ -4,12 +4,12 @@ import logo from "../../assets/logo.png";
 import "../../pages/Admin/dash.css";
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NavBarAdmin = ({ onSearch }) => {
   const [nbrcommand, setNbrcommand] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-
+const navigate=useNavigate() ;
   const listCommandes = async () => {
     try {
       const response = await axios.get('http://localhost:4000/listcommande');
@@ -28,15 +28,21 @@ const NavBarAdmin = ({ onSearch }) => {
   const handleSearchChange = (event) => {
     const term = event.target.value;
     setSearchTerm(term);
-    onSearch(term); 
+    onSearch(term);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    // Navigate to the "Medicaments" page with the search term
+    navigate('/medicaments', { state: searchTerm });
   };
 
   return (
     <nav>
       <i className='bx bx-menu'></i>
-      <form action="#">
+      <form onSubmit={handleSearchSubmit}>
         <div className="form-input">
-          <input
+        <span style={{marginRight:'5%',color:'gray'}}>Search</span>  <input
             type="search"
             placeholder="Search Medicaments..."
             value={searchTerm}
