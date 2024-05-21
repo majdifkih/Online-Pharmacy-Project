@@ -7,7 +7,7 @@ import SideBar from '../../../components/Admin/SideBar';
 import './stock.css';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useNavigate } from 'react-router-dom';
-
+import { message } from 'antd';
 
 
 const AddStock = () => {
@@ -32,6 +32,7 @@ const AddStock = () => {
   
     try {
       const response = await axios.post('http://localhost:4000/medicament/add', formData);
+      message.success('Médicament ajoutée avec succès !');
       navigate("/medicaments");
       console.log("Ajout avec succès", response);
     } catch (error) {
