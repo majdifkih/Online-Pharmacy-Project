@@ -7,7 +7,7 @@ import SideBar from '../../../components/Admin/SideBar';
 import './stock.css';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useNavigate, useParams } from 'react-router-dom';
-import Alert from '@mui/material/Alert';
+import { message } from 'antd';
 import CheckIcon from '@mui/icons-material/Check';
 
 const EditStock = () => {
@@ -19,29 +19,28 @@ const EditStock = () => {
   const [statut, setStatut] = useState('');
   const [PersMedicOblig, setPersMedicOblig] = useState(false);
   const [image, setImage] = useState(null);
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  const fetchMedicament = async () => {
-    try {
-      const response = await axios.get(`http://localhost:4000/medicament/onemedicat/${id}`);
-      const medicament = response.data;
-      setNom(medicament.nom);
-      setDescription(medicament.description);
-      setPrix(medicament.prix);
-      setQuantite(medicament.quantite);
-      setStatut(medicament.statut);
-      setPersMedicOblig(medicament.PersMedicOblig);
-      setImage(medicament.image); // Optionnel : Charger l'image actuelle
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Une erreur s\'est produite lors de la récupération des données du médicament :', error);
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchMedicament = async () => {
+      try {
+        const response = await axios.get(`http://localhost:4000/medicament/onemedicat/${id}`);
+        const medicament = response.data;
+        setNom(medicament.nom);
+        setDescription(medicament.description);
+        setPrix(medicament.prix);
+        setQuantite(medicament.quantite);
+        setStatut(medicament.statut);
+        setPersMedicOblig(medicament.PersMedicOblig);
+        setImage(medicament.image); // Optionnel : Charger l'image actuelle
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Une erreur s\'est produite lors de la récupération des données du médicament :', error);
+        setIsLoading(false);
+      }
+    };
+
     fetchMedicament();
   }, [id]);
 
@@ -60,7 +59,7 @@ const EditStock = () => {
     try {
       const response = await axios.put(`http://localhost:4000/medicament/edit/${id}`, formData);
       if (response.status === 200) {
-        setShowSuccessAlert(true);
+        message.success('Médicament modifié avec succès !');
         navigate('/medicaments');
       }
     } catch (error) {
@@ -84,11 +83,6 @@ const EditStock = () => {
         <NavBarAdmin />
         <main>
           <h1>Modifier Médicament</h1>
-          {showSuccessAlert && (
-            <Alert severity="success" icon={<CheckIcon fontSize="inherit" />}>
-              Médicament modifié avec succès !
-            </Alert>
-          )}
           <Form className='form'>
             <table>
               <Form.Group>

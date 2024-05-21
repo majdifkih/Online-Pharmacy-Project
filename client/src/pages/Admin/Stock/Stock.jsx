@@ -37,6 +37,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Stock = () => {
   const [rows, setRows] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [id, setId] = useState('');
   const [sortOption, setSortOption] = useState('nom');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,50 +75,56 @@ const Stock = () => {
     setIsModalOpen(false);
   };
 
-  const sortedAndFilteredMedicaments = rows.sort((a, b) => {
-    if (sortOption === 'nom') {
-      return a.nom.localeCompare(b.nom);
-    } else if (sortOption === 'quantite') {
-      return a.quantite - b.quantite;
-    } else if (sortOption === 'prix') {
-      return a.prix - b.prix;
-    } else if (sortOption === 'status') {
-      return a.statut.localeCompare(b.statut);
-    }
-    return 0;
-  });
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
+  const sortedAndFilteredMedicaments = rows
+    .filter((row) => row.nom.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => {
+      if (sortOption === 'nom') {
+        return a.nom.localeCompare(b.nom);
+      } else if (sortOption === 'quantite') {
+        return a.quantite - b.quantite;
+      } else if (sortOption === 'prix') {
+        return a.prix - b.prix;
+      } else if (sortOption === 'status') {
+        return a.statut.localeCompare(b.statut);
+      }
+      return 0;
+    });
 
   return (
     <div className="admin_dashbord">
       <SideBar />
       <section id="content">
-        <NavBarAdmin />
+        <NavBarAdmin onSearch={handleSearch} />
         <main>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h1>Liste des Médicaments</h1>
             <div className='right-head'>
-            <div className="sort-options-medica">
-            <label className='medica-label'>Trier par :</label>
-            <select
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-              className='medica-select'
-            >
-              <option value="nom">Nom</option>
-              <option value="quantite">Quantité</option>
-              <option value="prix">Prix</option>
-              <option value="status">Statut</option>
-            </select>
-          </div>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => navigate("/addmedicament")}
-              style={{ marginBottom: '2%' }}
-            >
-              Add Medicament
-            </Button>
-          </div>
+              <div className="sort-options-medica">
+                <label className='medica-label'>Trier par :</label>
+                <select
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                  className='medica-select'
+                >
+                  <option value="nom">Nom</option>
+                  <option value="quantite">Quantité</option>
+                  <option value="prix">Prix</option>
+                  <option value="status">Statut</option>
+                </select>
+              </div>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate("/addmedicament")}
+                style={{ marginBottom: '2%' }}
+              >
+                Add Medicament
+              </Button>
+            </div>
           </div>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
