@@ -1,13 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const ContactUsContainer = styled.div`
   text-align: center;
-  padding: 20px;
+  width: 50%;
+  align-self: center;
 `;
 
-const ContactInfo = styled.div`
-  margin-bottom: 20px;
+const PageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 75px;
+  box-sizing: border-box; /* Include padding in the element's total width and height */
+`;
+
+const Title = styled.h1 `
+  margin-bottom: 15px;
+  margin-top: 25px;
+  color: #1677ff;
+  font-weight: 800;
 `;
 
 const ContactForm = styled.form`
@@ -45,23 +59,24 @@ const ContactForm = styled.form`
 `;
 
 const ContactUsPage = () => (
+  <>
+  <Header />
+  <PageContainer>
   <ContactUsContainer>
-    <h1>Contact Us</h1>
-    <ContactInfo>
-      <p>Email: example@example.com</p>
-      <p>Phone: 123-456-7890</p>
-      <p>Address: 123 Main St, City, Country</p>
-    </ContactInfo>
-    <ContactForm>
+    <ContactForm className='form-control'>
+    <Title>Contact Us</Title>
       <label htmlFor="name">Name:</label>
-      <input type="text" id="name" name="name" />
+      <input type="text" id="name" name="name" className='form-control' />
       <label htmlFor="email">Email:</label>
-      <input type="email" id="email" name="email" />
+      <input type="email" id="email" name="email" className='form-control' />
       <label htmlFor="message">Message:</label>
-      <textarea id="message" name="message" rows="4" />
+      <textarea id="message" name="message" rows="4" className='form-control' />
       <button type="submit">Submit</button>
     </ContactForm>
   </ContactUsContainer>
+  </PageContainer>
+  <Footer />
+  </>
 );
 
 export default ContactUsPage;

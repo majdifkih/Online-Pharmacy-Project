@@ -12,6 +12,9 @@ const CarouselContainer = styled.div `
   width: 100%;
 ` ;
 
+const StyledCarousel = styled(Carousel) `
+  background: red;
+`
 
 const CategoryContainer = styled.div ` 
   background-color: #E8F3FF;
@@ -84,7 +87,7 @@ const Home = () => {
   <Container> 
     <Header/>
     <CarouselContainer>
-        <Carousel autoplay>
+        <StyledCarousel autoplay>
           {medicament.map((medic) => (
             <div key={medic._id}>
             <h3 style={contentStyle}>
@@ -93,7 +96,7 @@ const Home = () => {
           </div>
           ))}
            
-      </Carousel> 
+      </StyledCarousel> 
     </CarouselContainer>
     <InfoContainer>
         <Left> <img src="https://demo2.wpopal.com/pharmacy2/wp-content/uploads/2022/03/h6_Bg_1.jpg" alt="" srcSet='' /></Left>
