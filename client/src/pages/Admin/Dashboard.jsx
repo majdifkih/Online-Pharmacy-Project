@@ -32,7 +32,6 @@ const Dashboard = () => {
 	const listUsers = async () => {
         try {
             const responseuser = await axios.get('http://localhost:4000/auth/users');
-         
             setNbrUsers(responseuser.data.length);
         } catch (error) {
             console.error('There was an error fetching the data!', error);

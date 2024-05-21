@@ -98,17 +98,19 @@ module.exports.ChangerStatus = async (req, res) => {
       { _id: id },
       { status: status },
       { new: true }
-    ).populate("userId").populate("medicaments.medicId", "nom");
+    )
+      .populate("userId")
+      .populate("medicaments.medicId", "nom");
 
     if (userCommande) {
       const userEmail = userCommande.userId.email;
-      const emailSubject = "Info about your command";
+      const emailSubject = "Info about your Order";
       const formattedDate = moment(userCommande.date).format(
         "MMMM Do YYYY, h:mm:ss a"
       );
-      const emailText = `Your Command of ${formattedDate} is : ${status}`;
-      await sendEmail(userEmail, emailSubject, emailText);
+      const emailText = `Your Order of ${formattedDate} is : ${status}`;
       res.status(200).json(userCommande);
+      await sendEmail(userEmail, emailSubject, emailText);
     } else {
       res.status(404).send("No commandes for this user");
     }
