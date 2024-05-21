@@ -87,7 +87,7 @@ const ProfileEdit = () => {
     };
 
     return (
-        <div>
+        <div >
             <header style={{ marginTop: "2%" }}>
                 <h3>Changer les informations</h3>
             </header>

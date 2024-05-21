@@ -248,7 +248,7 @@ try{
     const AuthItmes = [      
       {
         label: (
-          <StyledLink to="/profil">
+          <StyledLink to="/profileadmin">
             Profile
          </StyledLink>
         ),
