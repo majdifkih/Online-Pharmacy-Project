@@ -72,7 +72,6 @@ const ProfileDetail = () => {
                         <p className='details-items-info'><span className='items-contient-info'>UserName :</span> {user.username}</p>
                         <p className='details-items-info'><span className='items-contient-info'>Address Mail :</span> {user.email}</p>
                         <p className='details-items-info'><span className='items-contient-info'>Address :</span> {user.adresse}</p>
-                        <p className='details-items-info'><span className='items-contient-info'>Phone Number:</span> {user.telephone}</p>
                     </>
                 )}
                 {role !== 'admin' ? <Button onClick={showModal} style={{ float: 'right' }} type="primary" danger>Delete Account</Button> : null}

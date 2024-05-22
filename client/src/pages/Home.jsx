@@ -10,10 +10,12 @@ const Container = styled.div `` ;
 
 const CarouselContainer = styled.div `
   width: 100%;
+
 ` ;
 
 const StyledCarousel = styled(Carousel) `
   background: #3DB2FF;
+  height: 500px;
 `
 
 const CategoryContainer = styled.div ` 
