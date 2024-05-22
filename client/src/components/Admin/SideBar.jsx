@@ -1,6 +1,14 @@
 import { HomeOutlined,SearchOutlined,ShoppingCartOutlined,LogoutOutlined,SettingOutlined,ProductOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import "../../pages/Admin/dash.css";
+import logo from '../../assets/logo.svg'
 import { Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+const Left = styled.div `
+    flex: 1;
+    display: flex;
+    align-items: center;
+`; 
+
 const SideBar = () => {
 	const navigate= useNavigate();
 	const handleLogout = async ()=> {
@@ -16,7 +24,9 @@ const SideBar = () => {
 <section id="sidebar">
 		<a href="#" class="brand">
         
-			<span class="text">Online Pharmacy</span>
+		<Left>
+         <img src={logo} alt='' />
+        </Left>
 		</a>
 		<ul class="side-menu top">
 			<li class="side-li">

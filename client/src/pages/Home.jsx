@@ -13,7 +13,7 @@ const CarouselContainer = styled.div `
 ` ;
 
 const StyledCarousel = styled(Carousel) `
-  background: red;
+  background: #3DB2FF;
 `
 
 const CategoryContainer = styled.div ` 
@@ -57,10 +57,12 @@ const Right = styled.div `
    ` ;
 
 const contentStyle = {
-  height: '550px',
-  color: '#fff',
-  lineHeight: '550px',
-  textAlign: 'center',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  color: 'white',
+  fontFamily: 'fontawesome',
+  fontSize: '40px',
   background: '#3DB2FF',
 };
 
@@ -90,9 +92,12 @@ const Home = () => {
         <StyledCarousel autoplay>
           {medicament.map((medic) => (
             <div key={medic._id}>
-            <h3 style={contentStyle}>
+              <div style={contentStyle}>
+              <h3>
               {medic.nom}
             </h3>
+              <img alt="example" style={{ width: '200px',height:'300px'}} src={`http://localhost:4000/${medic.image}`} />
+              </div>
           </div>
           ))}
            
